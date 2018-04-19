@@ -4,6 +4,7 @@ body {
 }
 
 .container {
+  padding: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +22,8 @@ body {
 }
 
 .table {
-  width: 1400px;
+  max-width: 1200px;
+  width: 100%;
   height: 400px;
 }
 

@@ -47,6 +47,7 @@ function Demo() {
         <ReactTableFixedColumns
           innerRef={(c) => { console.log('c', c); }}
           data={getData()}
+          getTdProps={() => ({ style: { textAlign: 'center' } })}
           columns={[
             {
               Header: 'First Name',

@@ -4,6 +4,8 @@ ReactTable HOC fixed columns
 
 Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed 1 or more columns.
 
+[Demo here](https://guillaumejasmin.github.io/react-table-hoc-fixed-columns/)
+
 ## Config
 
 It's really simple: add `fixed` property to your columns:

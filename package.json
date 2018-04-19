@@ -7,7 +7,7 @@
     "lib": "eslint src/lib/index.js && babel src/lib -d lib",
     "lib:watch": "babel src/lib -w -d lib",
     "docs": "webpack-dev-server",
-    "docs:prod": "webpack -p"
+    "docs:prod": "rm -rf docs && webpack -p"
   },
   "keywords": [],
   "license": "MIT",
