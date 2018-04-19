@@ -28,3 +28,7 @@ body {
 .table > div {
   height: 100%;
 }
+
+.rt-resizable-header {
+  outline: none;
+}
