@@ -8,6 +8,10 @@ Higher Order Components for [ReactTable](https://react-table.js.org). It make po
 
 ## Config
 
+```bash
+npm install react-table-hoc-fixed-columns --save
+```
+
 It's really simple: add `fixed` property to your columns:
 
 
