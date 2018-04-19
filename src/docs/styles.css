@@ -1,0 +1,30 @@
+body {
+  font-family: Arial;
+  font-size: 14px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.info {
+  padding: 50px 0;
+  text-align: center;
+}
+
+.title {
+  font-size: 20px;
+  padding-bottom: 20px;
+}
+
+.table {
+  width: 1400px;
+  height: 400px;
+}
+
+.table > div {
+  height: 100%;
+}
