@@ -55,12 +55,12 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
   }
 
   startUpdateHeaderEmptyColWidth() {
-    if (this.hasFixedColumns) {
+    const $offsetEl = document.querySelector('.rt-thead.-headerGroups .rt-tr .rt-th');
+    if (this.hasFixedColumns && $offsetEl) {
       const width = Array.from(document.querySelectorAll('.rt-thead.-header [data-fixedvisible="true"]'))
         .map($el => $el.offsetWidth)
         .reduce((a, b) => a + b, 0);
 
-      const $offsetEl = document.querySelector('.rt-thead.-headerGroups .rt-tr .rt-th');
       $offsetEl.style.width = `${width}px`;
     }
   }
