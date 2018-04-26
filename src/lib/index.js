@@ -19,6 +19,7 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     getTheadThProps: PropTypes.func,
     getProps: PropTypes.func,
     innerRef: PropTypes.func,
+    loading: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -26,6 +27,7 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     getTheadThProps: () => ({}),
     getProps: () => ({}),
     innerRef: null,
+    loading: false,
   }
 
   static preparedColumns(columns) {
@@ -35,9 +37,12 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     }));
   }
 
+  static getHeaderGhost() {
+    return document.querySelector('.rt-thead.-headerGroups .rt-tr .rt-th');
+  }
+
   constructor(props) {
     super(props);
-
     this.hasFixedColumns = !!props.columns.find(({ fixed }) => fixed === true);
   }
 
@@ -49,19 +54,24 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
 
   componentDidMount() {
     if (this.hasFixedColumns) {
-      this.startUpdateHeaderEmptyColWidth();
+      this.updateHeaderEmptyColWidth();
       this.calculateOffsetLeft();
     }
   }
 
-  startUpdateHeaderEmptyColWidth() {
-    const $offsetEl = document.querySelector('.rt-thead.-headerGroups .rt-tr .rt-th');
+  componentDidUpdate(prevProps) {
+    if (prevProps.loading && !this.props.loading) {
+      this.updateHeaderEmptyColWidth();
+    }
+  }
+
+  updateHeaderEmptyColWidth() {
+    const $offsetEl = ReactTableFixedColumns.getHeaderGhost();
     if (this.hasFixedColumns && $offsetEl) {
       const width = Array.from(document.querySelectorAll('.rt-thead.-header [data-fixedvisible="true"]'))
         .map($el => $el.offsetWidth)
         .reduce((a, b) => a + b, 0);
-
-      $offsetEl.style.width = `${width}px`;
+      $offsetEl.style.marginLeft = `-${width}px`;
     }
   }
 
@@ -107,7 +117,7 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
           fixedColumn.width = item.value;
         }
       });
-      this.startUpdateHeaderEmptyColWidth();
+      this.updateHeaderEmptyColWidth();
       this.calculateOffsetLeft();
       this.updateLeftPos();
     });
