@@ -48,6 +48,7 @@ function Demo() {
           innerRef={(c) => { console.log('c', c); }}
           data={getData()}
           getTdProps={() => ({ style: { textAlign: 'center' } })}
+          filterable
           columns={[
             {
               Header: 'First Name',
