@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const getFixedColumnId = id => `__fixedHidden__${id}`;
-const getColumnId = column => column.id || column.accessor;
+const getColumnId = column => column.id || column.accessor || column.Header;
+const ghostGroupId = '__ghost__group__id__';
 
 const styleFixedVisible = {
   position: 'absolute',
@@ -41,9 +42,20 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     return document.querySelector('.rt-thead.-headerGroups .rt-tr .rt-th');
   }
 
+  static hasFixedColumns = (columns) => {
+    let hasFixedColumns = !!columns.find(({ fixed }) => fixed === true);
+    columns.forEach((column) => {
+      if (!hasFixedColumns && column.columns && column.columns.find(({ fixed }) => fixed === true)) {
+        hasFixedColumns = true;
+      }
+    });
+    return hasFixedColumns;
+  }
+
   constructor(props) {
     super(props);
-    this.hasFixedColumns = !!props.columns.find(({ fixed }) => fixed === true);
+    this.hasFixedColumns = ReactTableFixedColumns.hasFixedColumns(props.columns);
+    this.hasGroups = props.columns.find(({ columns }) => columns && columns.length > 0);
   }
 
   state = {
@@ -68,10 +80,11 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
   updateHeaderEmptyColWidth() {
     const $offsetEl = ReactTableFixedColumns.getHeaderGhost();
     if (this.hasFixedColumns && $offsetEl) {
-      const width = Array.from(document.querySelectorAll('.rt-thead.-header [data-fixedvisible="true"]'))
-        .map($el => $el.offsetWidth)
-        .reduce((a, b) => a + b, 0);
-      $offsetEl.style.marginLeft = `-${width}px`;
+      // const width = Array.from(document.querySelectorAll('.rt-thead.-header [data-fixedvisible="true"]'))
+      //   .map($el => $el.offsetWidth)
+      //   .reduce((a, b) => a + b, 0);
+      // $offsetEl.style.marginLeft = `-${width}px`;
+      // $offsetEl.style.paddingLeft = `${width}px`;
     }
   }
 
@@ -124,10 +137,20 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
   }
 
   calculateOffsetLeft() {
-    for (let i = 0; i < this.fixedColumns.length; i += 1) {
+    const fixedColumnsNoGroup = this.fixedColumns.filter(({ isGroup }) => !isGroup);
+    const fixedColumnsGroup = this.fixedColumns.filter(({ isGroup }) => isGroup);
+
+    for (let i = 0; i < fixedColumnsNoGroup.length; i += 1) {
       if (i > 0) {
-        const prev = this.fixedColumns[i - 1];
-        this.fixedColumns[i].offsetLeft = prev.offsetLeft + prev.width;
+        const prev = fixedColumnsNoGroup[i - 1];
+        fixedColumnsNoGroup[i].offsetLeft = prev.offsetLeft + prev.width;
+      }
+    }
+
+    for (let i = 0; i < fixedColumnsGroup.length; i += 1) {
+      if (i > 0) {
+        const prev = fixedColumnsGroup[i - 1];
+        fixedColumnsGroup[i].offsetLeft = prev.offsetLeft + prev.width;
       }
     }
   }
@@ -145,44 +168,75 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     };
   }
 
-  processColumns(columns) {
-    let columnFixedOffset = 0;
+  processColumns(columns, isRoot = true, firstFixedGroups = []) {
+    // let columnFixedOffset = 0;
+    // let columnGroupFixedOffset = 0;
 
-    return columns
+    const nextFirstFixedGroups = firstFixedGroups;
+
+    // const firstFixedGroups = [];
+
+    const outputColumns = columns
       .map((column) => {
+        const isGroup = column.columns && column.columns.length > 1;
         const nextColumn = {
           ...column,
-          columns: column.columns && this.processColumns(column.columns),
+          isGroup,
+          columns: isGroup && this.processColumns(column.columns, false, nextFirstFixedGroups),
         };
 
         const columnId = getColumnId(nextColumn);
         if (nextColumn.fixed) {
+          nextFirstFixedGroups.push({
+            ...nextColumn,
+            width: nextColumn.width || 200,
+            __fixedHidden: true,
+            id: getFixedColumnId(columnId),
+          });
+
           const output = [
             {
               ...nextColumn,
               width: nextColumn.width || 200,
               __fixedVisible: true,
               __extraTdPropsStyle: {
-                left: columnFixedOffset,
+                left: isGroup ? this.columnGroupFixedOffset : this.columnFixedOffset,
               },
             },
-            {
-              ...nextColumn,
-              width: nextColumn.width || 200,
-              __fixedHidden: true,
-              id: getFixedColumnId(columnId),
-            },
           ];
+
+          // const output = [
+          //   {
+          //     ...nextColumn,
+          //     width: nextColumn.width || 200,
+          //     __fixedVisible: true,
+          //     __extraTdPropsStyle: {
+          //       left: this.columnFixedOffset,
+          //     },
+          //   },
+          //   {
+          //     ...nextColumn,
+          //     width: nextColumn.width || 200,
+          //     __fixedHidden: true,
+          //     id: getFixedColumnId(columnId),
+          //   },
+          // ];
 
           if (!this.fixedColumns.find(({ id }) => id === columnId)) {
             this.fixedColumns.push({
               id: columnId,
               width: nextColumn.width,
-              offsetLeft: columnFixedOffset,
+              offsetLeft: isGroup ? this.columnGroupFixedOffset : this.columnFixedOffset,
+              isGroup,
             });
           }
 
-          columnFixedOffset += nextColumn.width;
+          if (isGroup) {
+            // this.columnGroupFixedOffset += nextColumn.width || 0;
+            this.columnGroupFixedOffset = this.columnFixedOffset;
+          } else {
+            this.columnFixedOffset += nextColumn.width || 0;
+          }
 
           return output;
         }
@@ -190,13 +244,23 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
         return [nextColumn];
       })
       .reduce((a, b) => [...a, ...b], []);
+
+    if (isRoot) {
+      return [
+        ...firstFixedGroups,
+        ...outputColumns,
+      ];
+    }
+
+    return outputColumns;
   }
 
   getColumns = (columns) => {
-    const hasFixedColumns = !!columns.find(({ fixed }) => fixed === true);
-    if (!hasFixedColumns) return columns;
-    const preparedColumns = ReactTableFixedColumns.preparedColumns(columns);
-    return this.processColumns(preparedColumns);
+    if (!this.hasFixedColumns) return columns;
+    const preparedColumns = ReactTableFixedColumns.preparedColumns(columns, this.hasGroups);
+    const processColumns = this.processColumns(preparedColumns);
+    console.log('processColumns', processColumns);
+    return processColumns;
   }
 
   getProps = (...args) => {
@@ -217,7 +281,7 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     },
   );
 
-  getTdAndThProps = key => (...args) => {
+  getTdAndThProps = (key, a) => (...args) => {
     const column = args[2];
     const nextProps = {
       'data-colid': getColumnId(column),
@@ -260,6 +324,8 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
   }
 
   render() {
+    this.columnFixedOffset = 0;
+    this.columnGroupFixedOffset = 0;
     const { columns, ...props } = this.props;
     return (
       <ReactTable
@@ -268,6 +334,8 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
         columns={this.getColumns(columns)}
         getTheadTrProps={this.getTrProps('getTheadTrProps')}
         getTheadThProps={this.getTdAndThProps('getTheadThProps')}
+        getTheadGroupTrProps={this.getTrProps('getTheadGroupTrProps')}
+        getTheadGroupThProps={this.getTdAndThProps('getTheadGroupThProps', true)}
         getTheadFilterTrProps={this.getTrProps('getTheadFilterTrProps')}
         getTheadFilterThProps={this.getTdAndThProps('getTheadFilterThProps')}
         getTbodyProps={this.getTbodyProps}

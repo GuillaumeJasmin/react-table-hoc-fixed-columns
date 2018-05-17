@@ -1,9 +1,9 @@
-import React from "react";
-import { render } from "react-dom";
-import createTable from "../../lib";
+import React from 'react';
+import { render } from 'react-dom';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import "./styles.css";
+import createTable from '../../lib';
+import './styles.css';
 import {
   getFirstName,
   getLastName,
@@ -27,22 +27,22 @@ const getData = () => {
       street: getStreet(),
       streetBis: getStreet(),
       city: getCity(),
-    })
+    });
   }
   return data;
-}
+};
 
 function Demo() {
   return (
     <div className="container">
-    <div className="info">
+      <div className="info">
         <div className="title">
           ReactTable HOC fixed columns
         </div>
         <div>
           <a href="https://github.com/guillaumejasmin/react-table-hoc-fixed-columns">Github source</a>
         </div>
-    </div>
+      </div>
       <div className="table">
         <ReactTableFixedColumns
           innerRef={(c) => { console.log('c', c); }}
@@ -51,15 +51,53 @@ function Demo() {
           filterable
           columns={[
             {
-              Header: 'First Name',
-              accessor: 'firstName',
+              Header: '__GROUP__',
               fixed: true,
+              columns: [
+                {
+                  Header: 'First Name',
+                  accessor: 'firstName',
+                  fixed: true,
+                  width: 150,
+                },
+                {
+                  Header: 'Last Name',
+                  accessor: 'lastName',
+                  fixed: true,
+                  width: 150,
+                },
+              ],
             },
             {
-              Header: 'Last Name',
-              accessor: 'lastName',
+              Header: '__GROUP2__',
               fixed: true,
+              columns: [
+                {
+                  Header: 'First Name',
+                  id: 'firstName 2',
+                  accessor: 'firstName',
+                  fixed: true,
+                  width: 150,
+                },
+                {
+                  Header: 'Last Name',
+                  id: 'lastName 2',
+                  accessor: 'lastName',
+                  fixed: true,
+                  width: 150,
+                },
+              ],
             },
+            // {
+            //   Header: 'First Name',
+            //   accessor: 'firstName',
+            //   fixed: true,
+            // },
+            // {
+            //   Header: 'Last Name',
+            //   accessor: 'lastName',
+            //   fixed: true,
+            // },
             {
               Header: 'Other infos',
               columns: [
@@ -70,22 +108,22 @@ function Demo() {
                 {
                   Header: 'Email',
                   accessor: 'email',
-                  width: 300
+                  width: 300,
                 },
                 {
                   Header: 'Professional Email',
                   accessor: 'proEmail',
-                  width: 300
+                  width: 300,
                 },
                 {
                   Header: 'Street',
                   accessor: 'street',
-                  width: 300
+                  width: 300,
                 },
                 {
                   Header: 'Street bis',
                   accessor: 'streetBis',
-                  width: 300
+                  width: 300,
                 },
                 {
                   Header: 'City',
@@ -101,4 +139,4 @@ function Demo() {
   );
 }
 
-render(<Demo />, document.getElementById("app"));
+render(<Demo />, document.getElementById('app'));

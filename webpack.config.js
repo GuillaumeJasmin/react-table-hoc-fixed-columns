@@ -30,6 +30,6 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname, "docs"),
-    port: 8181
+    port: 8989
   }
 };
