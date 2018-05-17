@@ -18,6 +18,7 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     getTdProps: PropTypes.func,
     getTheadThProps: PropTypes.func,
     getProps: PropTypes.func,
+    onResizedChange: PropTypes.func,
     innerRef: PropTypes.func,
     loading: PropTypes.bool,
   }
@@ -26,6 +27,7 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     getTdProps: () => ({}),
     getTheadThProps: () => ({}),
     getProps: () => ({}),
+    onResizedChange: null,
     innerRef: null,
     loading: false,
   }
@@ -93,7 +95,8 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     }
   }
 
-  onResizeChange = (resized) => {
+  onResizedChange = (resized, ...rest) => {
+    const { onResizedChange } = this.props;
     const nextResized = resized.slice();
     this.fixedColumns.forEach(({ id }) => {
       const fixedColumnsResized = nextResized.find(resizedItem => resizedItem.id === id);
@@ -121,6 +124,10 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
       this.calculateOffsetLeft();
       this.updateLeftPos();
     });
+
+    if (onResizedChange) {
+      onResizedChange(resized, ...rest);
+    }
   }
 
   calculateOffsetLeft() {
@@ -274,7 +281,7 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
         getTrProps={this.getTrProps('getTrProps')}
         getTdProps={this.getTdAndThProps('getTdProps')}
         getProps={this.getProps}
-        onResizedChange={this.onResizeChange}
+        onResizedChange={this.onResizedChange}
         resized={this.state.resized}
       />
     );
