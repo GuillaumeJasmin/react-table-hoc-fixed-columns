@@ -1,4 +1,4 @@
-const mathsRandomInt = (min, max) => {
+export const mathsRandomInt = (min, max) => {
     return Math.round(Math.random() * (max - min) + min);
 };
 

@@ -11,6 +11,7 @@ import {
   getEmail,
   getStreet,
   getCity,
+  mathsRandomInt,
 } from '../../src/FakeData.js';
 
 const ReactTableFixedColumns = createTable(ReactTable);
@@ -18,9 +19,16 @@ const ReactTableFixedColumns = createTable(ReactTable);
 const getData = () => {
   const data = [];
   for (let i = 0; i < 100; i += 1) {
+    const lastNameCount = mathsRandomInt(1, 3);
+    let lastName = Array.apply(null, Array(lastNameCount)); // eslint-disable-line
+    lastName = lastName.map((_, index) => ({
+      id: index,
+      value: getLastName(),
+    }));
+
     data.push({
       firstName: getFirstName(),
-      lastName: getLastName(),
+      lastName,
       age: getAge(),
       email: getEmail(),
       proEmail: getEmail(),
@@ -65,6 +73,7 @@ function Demo() {
                   accessor: 'lastName',
                   fixed: true,
                   width: 150,
+                  Cell: row => <div>{row.value.map(item => <div key={item.id}>{item.value}</div>)}</div>,
                 },
               ],
             },
@@ -82,7 +91,7 @@ function Demo() {
                 {
                   Header: 'Last Name',
                   id: 'lastName 2',
-                  accessor: 'lastName',
+                  accessor: 'firstName',
                   fixed: true,
                   width: 150,
                 },
