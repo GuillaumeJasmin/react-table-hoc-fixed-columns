@@ -19,6 +19,7 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     getTheadThProps: PropTypes.func,
     getProps: PropTypes.func,
     onResizedChange: PropTypes.func,
+    onPageSizeChange: PropTypes.func,
     innerRef: PropTypes.func,
     loading: PropTypes.bool,
   }
@@ -28,6 +29,7 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     getTheadThProps: () => ({}),
     getProps: () => ({}),
     onResizedChange: null,
+    onPageSizeChange: null,
     innerRef: null,
     loading: false,
   }
@@ -128,6 +130,14 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
     if (onResizedChange) {
       onResizedChange(resized, ...rest);
     }
+  }
+
+  onPageSizeChange = (...args) => {
+    const { onPageSizeChange } = this.props;
+    if (onPageSizeChange) {
+      onPageSizeChange(...args);
+    }
+    this.updateLeftPos();
   }
 
   calculateOffsetLeft() {
@@ -282,6 +292,7 @@ export default ReactTable => class ReactTableFixedColumns extends React.Componen
         getTdProps={this.getTdAndThProps('getTdProps')}
         getProps={this.getProps}
         onResizedChange={this.onResizedChange}
+        onPageSizeChange={this.onPageSizeChange}
         resized={this.state.resized}
       />
     );
