@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import { withFixedColumns, withFixedColumnsOldSupport } from '../../lib';
+import withFixedColumns from '../../lib';
 import './styles.css';
 import {
   getFirstName,
@@ -15,7 +15,6 @@ import {
 } from '../../src/FakeData.js';
 
 const ReactTableFixedColumns = withFixedColumns(ReactTable);
-// const ReactTableFixedColumns = withFixedColumnsOldSupport(ReactTable);
 
 const getData = () => {
   const data = [];
@@ -65,10 +64,35 @@ function Demo() {
                       Header: 'First Name',
                       accessor: 'firstName',
                       width: 150,
-                      fixed: true,
+                      // fixed: true,
+                    },
+                    {
+                      Header: 'Last Name',
+                      accessor: 'lastName',
+                      width: 150,
+                      Cell: row => <div>{row.value.map(item => <div key={item.id}>{item.value}</div>)}</div>,
+                      // fixed: true,
                     },
                   ],
                 },
+            {
+              fixed: true,
+              columns: [
+                {
+                  Header: 'First Name',
+                  accessor: 'firstName',
+                  width: 150,
+                  // fixed: true,
+                },
+                {
+                  Header: 'Last Name',
+                  accessor: 'lastName',
+                  width: 150,
+                  Cell: row => <div>{row.value.map(item => <div key={item.id}>{item.value}</div>)}</div>,
+                  // fixed: true,
+                },
+              ],
+            },
                 // {
                 //   Header: 'Last Name',
                 //   accessor: 'lastName',
