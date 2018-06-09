@@ -49,6 +49,7 @@
     "url": "git@github.com:guillaumejasmin/react-table-hoc-fixed-columns.git"
   },
   "dependencies": {
-    "emotion": "^9.1.3"
+    "classnames": "^2.2.6",
+    "emotion": "^9.2.3"
   }
 }

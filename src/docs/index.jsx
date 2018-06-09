@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import createTable from '../../lib';
+import { withFixedColumns, withFixedColumnsOldSupport } from '../../lib';
 import './styles.css';
 import {
   getFirstName,
@@ -14,7 +14,8 @@ import {
   mathsRandomInt,
 } from '../../src/FakeData.js';
 
-const ReactTableFixedColumns = createTable(ReactTable);
+const ReactTableFixedColumns = withFixedColumns(ReactTable);
+// const ReactTableFixedColumns = withFixedColumnsOldSupport(ReactTable);
 
 const getData = () => {
   const data = [];
@@ -53,93 +54,61 @@ function Demo() {
       </div>
       <div className="table">
         <ReactTableFixedColumns
-          innerRef={(c) => { console.log('c', c); }}
           data={getData()}
           getTdProps={() => ({ style: { textAlign: 'center' } })}
           filterable
           columns={[
-            {
-              Header: '__GROUP__',
-              fixed: true,
-              columns: [
                 {
-                  Header: 'First Name',
-                  accessor: 'firstName',
                   fixed: true,
-                  width: 150,
+                  columns: [
+                    {
+                      Header: 'First Name',
+                      accessor: 'firstName',
+                      width: 150,
+                      fixed: true,
+                    },
+                  ],
                 },
+                // {
+                //   Header: 'Last Name',
+                //   accessor: 'lastName',
+                //   width: 150,
+                //   Cell: row => <div>{row.value.map(item => <div key={item.id}>{item.value}</div>)}</div>,
+                //   fixed: true,
+                // },
                 {
-                  Header: 'Last Name',
-                  accessor: 'lastName',
-                  fixed: true,
-                  width: 150,
-                  Cell: row => <div>{row.value.map(item => <div key={item.id}>{item.value}</div>)}</div>,
-                },
-              ],
-            },
-            {
-              Header: '__GROUP2__',
-              fixed: true,
-              columns: [
-                {
-                  Header: 'First Name',
-                  id: 'firstName 2',
-                  accessor: 'firstName',
-                  fixed: true,
-                  width: 150,
-                },
-                {
-                  Header: 'Last Name',
-                  id: 'lastName 2',
-                  accessor: 'firstName',
-                  fixed: true,
-                  width: 150,
-                },
-              ],
-            },
-            // {
-            //   Header: 'First Name',
-            //   accessor: 'firstName',
-            //   fixed: true,
-            // },
-            // {
-            //   Header: 'Last Name',
-            //   accessor: 'lastName',
-            //   fixed: true,
-            // },
-            {
-              Header: 'Other infos',
-              columns: [
-                {
-                  Header: 'Age',
-                  accessor: 'age',
-                },
-                {
-                  Header: 'Email',
-                  accessor: 'email',
-                  width: 300,
-                },
-                {
-                  Header: 'Professional Email',
-                  accessor: 'proEmail',
-                  width: 300,
-                },
-                {
-                  Header: 'Street',
-                  accessor: 'street',
-                  width: 300,
-                },
-                {
-                  Header: 'Street bis',
-                  accessor: 'streetBis',
-                  width: 300,
-                },
-                {
-                  Header: 'City',
-                  accessor: 'city',
-                },
-              ],
-            },
+                  Header: 'A',
+                  columns: [
+                    {
+                      Header: 'Age',
+                      accessor: 'age',
+                    },
+                    {
+                      Header: 'Email',
+                      accessor: 'email',
+                      width: 300,
+                    },
+                    {
+                      Header: 'Professional Email',
+                      accessor: 'proEmail',
+                      width: 300,
+                    },
+                    {
+                      Header: 'Street',
+                      accessor: 'street',
+                      width: 300,
+                    },
+                    {
+                      Header: 'Street bis',
+                      accessor: 'streetBis',
+                      width: 300,
+                    },
+                    {
+                      Header: 'City',
+                      accessor: 'city',
+                    },
+                  ]
+                }
           ]}
           defaultPageSize={50}
         />
