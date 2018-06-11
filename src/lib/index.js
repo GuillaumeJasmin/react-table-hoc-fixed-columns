@@ -133,6 +133,7 @@ export default (ReactTable) => {
         onFilteredChange: this.onChangeProperty('onFilteredChange'),
         onPageChange: this.onChangeProperty('onPageChange'),
         onPageSizeChange: this.onChangeProperty('onPageSizeChange'),
+        onExpandedChange: this.onChangeProperty('onExpandedChange'),
       };
     }
 
@@ -220,7 +221,6 @@ export default (ReactTable) => {
           columns={this.getColumns()}
           getProps={this.getProps}
           {...this.onChangePropertyList}
-          // onExpandedChange={this.onExpandedChange}
         />
       );
     }
