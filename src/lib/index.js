@@ -98,11 +98,7 @@ export default (ReactTable) => {
       getProps: PropTypes.func,
       innerRef: PropTypes.func,
       className: PropTypes.string,
-      onPageChange: PropTypes.func,
       onResizedChange: PropTypes.func,
-      onFilteredChange: PropTypes.func,
-      onPageSizeChange: PropTypes.func,
-      // onExpandedChange: PropTypes.func,
     }
 
     static defaultProps = {
@@ -110,10 +106,6 @@ export default (ReactTable) => {
       innerRef: null,
       className: null,
       onResizedChange: null,
-      onFilteredChange: null,
-      onPageChange: null,
-      onPageSizeChange: null,
-      // onExpandedChange: null,
     }
 
     constructor(props) {
@@ -175,13 +167,6 @@ export default (ReactTable) => {
       }
       this.updatePos();
     }
-
-    // onExpandedChange = (...args) => {
-    //   const { onExpandedChange } = this.props;
-    //   if (onExpandedChange) {
-    //     onExpandedChange(...args);
-    //   }
-    // }
 
     updatePos(target = this.tableRef) {
       /* eslint-disable no-param-reassign */
