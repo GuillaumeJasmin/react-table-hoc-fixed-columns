@@ -144,11 +144,11 @@ export default (ReactTable) => {
     updateLeftPos() {
       /* eslint-disable no-param-reassign */
       document.querySelectorAll(`.${fixedLeftClassName}`).forEach((td) => {
-        td.style.left = `${this.prevScrollLeft}px`;
+        td.style.transform = `translate3d(${this.prevScrollLeft}px, 0, 0)`;
       });
 
       document.querySelectorAll(`.${fixedRightClassName}`).forEach((td) => {
-        td.style.right = `${this.prevScrollRight}px`;
+        td.style.transform = `translate3d(${-this.prevScrollRight}px, 0, 0)`;
       });
       /* eslint-enable no-param-reassign */
     }
