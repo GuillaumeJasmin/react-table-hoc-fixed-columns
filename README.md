@@ -14,7 +14,7 @@ npm install react-table-hoc-fixed-columns --save
 
 It's really simple: add `fixed` property to your columns with value `left` and `right`
 
-*** Note: *** for migration to `v0.1.x` to `v1.x.x` , `fixed: true` is equivalent to `fixed: left`, no need to change the value.
+*Note:* for migration to `v0.1.x` to `v1.x.x` , `fixed: true` is equivalent to `fixed: left`, no need to change the value.
 
 
 ```js
@@ -49,7 +49,7 @@ render () {
 }
 ```
 
-*** Notes: ***
+*Notes:*
   * It's a workaround, because the main `ReactTable` package currently not provide a way to have fixed columns. 
   * animation is not always smooth, it depend on your browser, OS, and scroll trigger (mouse wheel or scroll bar), but it works.
   * fixed columns works on simple column or groups
