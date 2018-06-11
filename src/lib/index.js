@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uniqid from 'uniqid';
 import cx from 'classnames';
 import { css } from 'emotion';
 
@@ -105,6 +106,7 @@ export default (ReactTable) => {
     constructor(props) {
       super(props);
       const hasGroups = !!props.columns.find(column => column.columns);
+      this.tableDataId = `data-table-${uniqid()}`;
       const fixedColumnsWithoutGroup = props.columns.filter(column => column.fixed && !column.columns).map(({ Header }) => `'${Header}'`);
       if (hasGroups && fixedColumnsWithoutGroup.length) {
         console.warn([
@@ -115,9 +117,10 @@ export default (ReactTable) => {
     }
 
     componentDidMount() {
-      this.calculatePos(document.querySelector('.rt-table'));
-      this.leftFixedCells = document.querySelectorAll(`.${fixedLeftClassName}`);
-      this.rightFixedCells = document.querySelectorAll(`.${fixedRightClassName}`);
+      this.tableRef = document.querySelector(`[${this.tableDataId}] .rt-table`);
+      this.calculatePos();
+      this.leftFixedCells = this.tableRef.querySelectorAll(`.${fixedLeftClassName}`);
+      this.rightFixedCells = this.tableRef.querySelectorAll(`.${fixedRightClassName}`);
     }
 
     onScrollX = (event) => {
@@ -125,11 +128,11 @@ export default (ReactTable) => {
       this.calculatePos(event.nativeEvent.target);
     }
 
-    calculatePos(target = document.querySelector('.rt-table')) {
+    calculatePos(target = this.tableRef) {
       const { scrollLeft, scrollWidth, offsetWidth } = target;
       this.nextTranslateLeftX = scrollLeft;
       this.nextTranslateRightX = scrollWidth - scrollLeft - offsetWidth;
-      this.updatePos();
+      this.updatePos(target);
     }
 
     onPageSizeChange = (...args) => {
@@ -148,13 +151,13 @@ export default (ReactTable) => {
       this.calculatePos();
     }
 
-    updatePos() {
+    updatePos(target) {
       /* eslint-disable no-param-reassign */
-      document.querySelectorAll(`.${fixedLeftClassName}`).forEach((td) => {
+      target.querySelectorAll(`.${fixedLeftClassName}`).forEach((td) => {
         td.style.transform = `translate3d(${this.nextTranslateLeftX}px, 0, 0)`;
       });
 
-      document.querySelectorAll(`.${fixedRightClassName}`).forEach((td) => {
+      target.querySelectorAll(`.${fixedRightClassName}`).forEach((td) => {
         td.style.transform = `translate3d(${-this.nextTranslateRightX}px, 0, 0)`;
       });
       /* eslint-enable no-param-reassign */
@@ -172,14 +175,15 @@ export default (ReactTable) => {
       return {
         ...(getProps && getProps(...args)),
         onScroll: this.onScrollX,
+        [this.tableDataId]: true,
       };
     }
 
     render() {
-      const { className, innerRef } = this.props;
+      const { className, innerRef, ...props } = this.props;
       return (
         <ReactTable
-          {...this.props}
+          {...props}
           ref={innerRef}
           className={cx(className, tableClassName)}
           columns={this.getColumns()}

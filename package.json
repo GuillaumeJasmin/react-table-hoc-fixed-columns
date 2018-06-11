@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "emotion": "^9.2.3"
+    "emotion": "^9.2.3",
+    "uniqid": "^5.0.3"
   }
 }
