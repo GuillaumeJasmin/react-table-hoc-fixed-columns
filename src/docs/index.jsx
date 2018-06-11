@@ -18,7 +18,7 @@ const ReactTableFixedColumns = withFixedColumns(ReactTable);
 
 const getData = () => {
   const data = [];
-  for (let i = 0; i < 100; i += 1) {
+  for (let i = 0; i < 120; i += 1) {
     // const lastNameCount = mathsRandomInt(1, 3);
     // let lastName = Array.apply(null, Array(lastNameCount)); // eslint-disable-line
     // lastName = lastName.map((_, index) => ({

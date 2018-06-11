@@ -98,16 +98,22 @@ export default (ReactTable) => {
       getProps: PropTypes.func,
       innerRef: PropTypes.func,
       className: PropTypes.string,
-      onPageSizeChange: PropTypes.func,
+      onPageChange: PropTypes.func,
       onResizedChange: PropTypes.func,
+      onFilteredChange: PropTypes.func,
+      onPageSizeChange: PropTypes.func,
+      // onExpandedChange: PropTypes.func,
     }
 
     static defaultProps = {
       getProps: null,
       innerRef: null,
       className: null,
-      onPageSizeChange: null,
       onResizedChange: null,
+      onFilteredChange: null,
+      onPageChange: null,
+      onPageSizeChange: null,
+      // onExpandedChange: null,
     }
 
     constructor(props) {
@@ -121,6 +127,13 @@ export default (ReactTable) => {
           `For a better UI render, place ${fixedColumnsWithoutGroup.join(' and ')} columns into a group (even a group with an empty Header label)`,
         ].join('\n\n'));
       }
+
+      this.onChangePropertyList = {
+        onResizedChange: this.onChangeProperty('onResizedChange'),
+        onFilteredChange: this.onChangeProperty('onFilteredChange'),
+        onPageChange: this.onChangeProperty('onPageChange'),
+        onPageSizeChange: this.onChangeProperty('onPageSizeChange'),
+      };
     }
 
     componentDidMount() {
@@ -128,6 +141,10 @@ export default (ReactTable) => {
       this.calculatePos();
       this.leftFixedCells = this.tableRef.querySelectorAll(`.${fixedLeftClassName}`);
       this.rightFixedCells = this.tableRef.querySelectorAll(`.${fixedRightClassName}`);
+    }
+
+    componentDidUpdate() {
+      this.updatePos();
     }
 
     onScrollX = (event) => {
@@ -142,14 +159,6 @@ export default (ReactTable) => {
       this.updatePos(target);
     }
 
-    onPageSizeChange = (...args) => {
-      const { onPageSizeChange } = this.props;
-      if (onPageSizeChange) {
-        onPageSizeChange(...args);
-      }
-      this.updatePos();
-    }
-
     onResizedChange = (...args) => {
       const { onResizedChange } = this.props;
       if (onResizedChange) {
@@ -158,7 +167,22 @@ export default (ReactTable) => {
       this.calculatePos();
     }
 
-    updatePos(target) {
+    onChangeProperty = propertyName => (...args) => {
+      const propertyProps = this.props[propertyName];
+      if (propertyProps) {
+        propertyProps(...args);
+      }
+      this.updatePos();
+    }
+
+    // onExpandedChange = (...args) => {
+    //   const { onExpandedChange } = this.props;
+    //   if (onExpandedChange) {
+    //     onExpandedChange(...args);
+    //   }
+    // }
+
+    updatePos(target = this.tableRef) {
       /* eslint-disable no-param-reassign */
       target.querySelectorAll(`.${fixedLeftClassName}`).forEach((td) => {
         td.style.transform = `translate3d(${this.nextTranslateLeftX}px, 0, 0)`;
@@ -195,8 +219,8 @@ export default (ReactTable) => {
           className={cx(className, tableClassName)}
           columns={this.getColumns()}
           getProps={this.getProps}
-          onPageSizeChange={this.onPageSizeChange}
-          onResizedChange={this.onResizedChange}
+          {...this.onChangePropertyList}
+          // onExpandedChange={this.onExpandedChange}
         />
       );
     }
