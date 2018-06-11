@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { css } from 'emotion';
 
+const fixedLeftClassName = '__fixedLeftClassName';
+const fixedRightClassName = '__fixedRightClassName';
+
 const fixedClassName = css`
   position: relative;
   z-Index: 2;
@@ -24,28 +27,57 @@ const tableClassName = css`
   }
 `;
 
-const lastFixedClassName = css`
+const border = 'solid 1px #ccc !important';
+
+const lastLeftFixedClassName = css`
   box-shadow: 2px 0px 4px #eee !important;
-  border-right: solid 1px #ccc !important;
+  border-right: ${border};
 `;
 
+const lastRightFixedClassName = css`
+  box-shadow: -2px 0px 4px #eee !important;
+  border-left: ${border};
+`;
+
+const isLeftFixed = column => [true, 'left'].includes(column.fixed);
+const isRightFixed = column => column.fixed === 'right';
+
 const sortColumns = columns => columns.sort((a, b) => {
-  if (a.fixed && !b.fixed) return -1;
-  if (!a.fixed && b.fixed) return 1;
+  if (isLeftFixed(a) && !isLeftFixed(b)) return -1;
+  if (!isLeftFixed(a) && isLeftFixed(b)) return 1;
+  if (isRightFixed(a) && !isRightFixed(b)) return 1;
+  if (!isRightFixed(a) && isRightFixed(b)) return -1;
   return 0;
 });
 
-const getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed) => columns.map((column, index) => {
+const getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) => columns.map((column, index) => {
   const fixed = column.fixed || parentIsfixed || false;
   const nextColumn = columns[index + 1];
   const _parentIsLastFixed = parentIsfixed === undefined && nextColumn && !nextColumn.fixed;
   const isLast = !nextColumn;
+  const prevColumn = columns[index - 1];
+  const _parentIsFirstFixed = parentIsfixed === undefined && prevColumn && !prevColumn.fixed;
+  const isFirst = !prevColumn;
   return {
     ...column,
     fixed,
-    className: cx(column.className, fixed && [fixedClassName], parentIsLastFixed && isLast && lastFixedClassName),
-    headerClassName: cx(column.headerClassName, fixed && [fixedClassName], (_parentIsLastFixed || (parentIsLastFixed && isLast)) && lastFixedClassName),
-    columns: column.columns && getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed),
+    className: cx(
+      column.className,
+      fixed && fixedClassName,
+      isLeftFixed({ fixed }) && fixedLeftClassName,
+      isRightFixed({ fixed }) && fixedRightClassName,
+      parentIsLastFixed && isLast && lastLeftFixedClassName,
+      parentIsFirstFixed && isFirst && lastRightFixedClassName,
+    ),
+    headerClassName: cx(
+      column.headerClassName,
+      fixed && fixedClassName,
+      isLeftFixed({ fixed }) && fixedLeftClassName,
+      isRightFixed({ fixed }) && fixedRightClassName,
+      (_parentIsLastFixed || (parentIsLastFixed && isLast)) && lastLeftFixedClassName,
+      (_parentIsFirstFixed || (parentIsFirstFixed && isFirst)) && lastRightFixedClassName,
+    ),
+    columns: column.columns && getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed),
   };
 });
 
@@ -80,11 +112,23 @@ export default (ReactTable) => {
       }
     }
 
+    componentDidMount() {
+      this.calculatePos(document.querySelector('.rt-table'));
+      this.leftFixedCells = document.querySelectorAll(`.${fixedLeftClassName}`);
+      this.rightFixedCells = document.querySelectorAll(`.${fixedRightClassName}`);
+    }
+
     onScrollX = (event) => {
       if (event.nativeEvent.target.getAttribute('class') !== 'rt-table') return;
-      const currentScrollLeft = event.nativeEvent.target.scrollLeft;
+      this.calculatePos(event.nativeEvent.target);
+    }
+
+    calculatePos(target) {
+      const { scrollLeft, scrollWidth, offsetWidth } = target;
+      const currentScrollLeft = scrollLeft;
       if (currentScrollLeft !== this.prevScrollLeft) {
         this.prevScrollLeft = currentScrollLeft;
+        this.prevScrollRight = scrollWidth - scrollLeft - offsetWidth;
         this.updateLeftPos();
       }
     }
@@ -98,11 +142,15 @@ export default (ReactTable) => {
     }
 
     updateLeftPos() {
-      document.querySelectorAll(`.${fixedClassName}`).forEach((td) => {
-        /* eslint-disable no-param-reassign */
+      /* eslint-disable no-param-reassign */
+      document.querySelectorAll(`.${fixedLeftClassName}`).forEach((td) => {
         td.style.left = `${this.prevScrollLeft}px`;
-        /* eslint-enable no-param-reassign */
       });
+
+      document.querySelectorAll(`.${fixedRightClassName}`).forEach((td) => {
+        td.style.right = `${this.prevScrollRight}px`;
+      });
+      /* eslint-enable no-param-reassign */
     }
 
     getColumns() {

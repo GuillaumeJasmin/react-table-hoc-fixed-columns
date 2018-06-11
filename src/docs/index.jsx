@@ -28,8 +28,10 @@ const getData = () => {
 
     data.push({
       firstName: getFirstName(),
+      firstName2: getFirstName(),
       lastName,
       age: getAge(),
+      age2: getAge(),
       email: getEmail(),
       proEmail: getEmail(),
       street: getStreet(),
@@ -57,24 +59,54 @@ function Demo() {
           getTdProps={() => ({ style: { textAlign: 'center' } })}
           filterable
           columns={[
+            {
+              fixed: 'right',
+              columns: [
+                // {
+                //   Header: 'First Name 2',
+                //   accessor: 'firstName2',
+                //   width: 150,
+                // },
                 {
-                  fixed: true,
-                  columns: [
-                    {
-                      Header: 'First Name',
-                      accessor: 'firstName',
-                      width: 150,
-                      // fixed: true,
-                    },
-                    {
-                      Header: 'Last Name',
-                      accessor: 'lastName',
-                      width: 150,
-                      Cell: row => <div>{row.value.map(item => <div key={item.id}>{item.value}</div>)}</div>,
-                      // fixed: true,
-                    },
-                  ],
+                  Header: 'Age 2',
+                  accessor: 'age2',
+                  width: 150,
                 },
+              ],
+            },
+            {
+              Header: 'A',
+              columns: [
+                {
+                  Header: 'Age',
+                  accessor: 'age',
+                },
+                {
+                  Header: 'Email',
+                  accessor: 'email',
+                  width: 300,
+                },
+                {
+                  Header: 'Professional Email',
+                  accessor: 'proEmail',
+                  width: 300,
+                },
+                {
+                  Header: 'Street',
+                  accessor: 'street',
+                  width: 300,
+                },
+                {
+                  Header: 'Street bis',
+                  accessor: 'streetBis',
+                  width: 300,
+                },
+                {
+                  Header: 'City',
+                  accessor: 'city',
+                },
+              ],
+            },
             {
               fixed: true,
               columns: [
@@ -93,46 +125,6 @@ function Demo() {
                 },
               ],
             },
-                // {
-                //   Header: 'Last Name',
-                //   accessor: 'lastName',
-                //   width: 150,
-                //   Cell: row => <div>{row.value.map(item => <div key={item.id}>{item.value}</div>)}</div>,
-                //   fixed: true,
-                // },
-                {
-                  Header: 'A',
-                  columns: [
-                    {
-                      Header: 'Age',
-                      accessor: 'age',
-                    },
-                    {
-                      Header: 'Email',
-                      accessor: 'email',
-                      width: 300,
-                    },
-                    {
-                      Header: 'Professional Email',
-                      accessor: 'proEmail',
-                      width: 300,
-                    },
-                    {
-                      Header: 'Street',
-                      accessor: 'street',
-                      width: 300,
-                    },
-                    {
-                      Header: 'Street bis',
-                      accessor: 'streetBis',
-                      width: 300,
-                    },
-                    {
-                      Header: 'City',
-                      accessor: 'city',
-                    },
-                  ]
-                }
           ]}
           defaultPageSize={50}
         />
