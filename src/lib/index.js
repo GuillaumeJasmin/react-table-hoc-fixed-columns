@@ -90,6 +90,7 @@ export default (ReactTable) => {
       innerRef: PropTypes.func,
       className: PropTypes.string,
       onPageSizeChange: PropTypes.func,
+      onResizedChange: PropTypes.func,
     }
 
     static defaultProps = {
@@ -98,6 +99,7 @@ export default (ReactTable) => {
       innerRef: null,
       className: null,
       onPageSizeChange: null,
+      onResizedChange: null,
     }
 
     constructor(props) {
@@ -123,14 +125,11 @@ export default (ReactTable) => {
       this.calculatePos(event.nativeEvent.target);
     }
 
-    calculatePos(target) {
+    calculatePos(target = document.querySelector('.rt-table')) {
       const { scrollLeft, scrollWidth, offsetWidth } = target;
-      const currentScrollLeft = scrollLeft;
-      if (currentScrollLeft !== this.prevScrollLeft) {
-        this.prevScrollLeft = currentScrollLeft;
-        this.prevScrollRight = scrollWidth - scrollLeft - offsetWidth;
-        this.updateLeftPos();
-      }
+      this.nextTranslateLeftX = scrollLeft;
+      this.nextTranslateRightX = scrollWidth - scrollLeft - offsetWidth;
+      this.updatePos();
     }
 
     onPageSizeChange = (...args) => {
@@ -138,17 +137,25 @@ export default (ReactTable) => {
       if (onPageSizeChange) {
         onPageSizeChange(...args);
       }
-      this.updateLeftPos();
+      this.updatePos();
     }
 
-    updateLeftPos() {
+    onResizedChange = (...args) => {
+      const { onResizedChange } = this.props;
+      if (onResizedChange) {
+        onResizedChange(...args);
+      }
+      this.calculatePos();
+    }
+
+    updatePos() {
       /* eslint-disable no-param-reassign */
       document.querySelectorAll(`.${fixedLeftClassName}`).forEach((td) => {
-        td.style.transform = `translate3d(${this.prevScrollLeft}px, 0, 0)`;
+        td.style.transform = `translate3d(${this.nextTranslateLeftX}px, 0, 0)`;
       });
 
       document.querySelectorAll(`.${fixedRightClassName}`).forEach((td) => {
-        td.style.transform = `translate3d(${-this.prevScrollRight}px, 0, 0)`;
+        td.style.transform = `translate3d(${-this.nextTranslateRightX}px, 0, 0)`;
       });
       /* eslint-enable no-param-reassign */
     }
@@ -178,6 +185,7 @@ export default (ReactTable) => {
           columns={this.getColumns()}
           getProps={this.getProps}
           onPageSizeChange={this.onPageSizeChange}
+          onResizedChange={this.onResizedChange}
         />
       );
     }
