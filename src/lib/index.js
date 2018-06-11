@@ -56,14 +56,14 @@ const getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed, parentIs
 
   const nextColumn = columns[index + 1];
   const _parentIsLastFixed = fixed && parentIsfixed === undefined && nextColumn && !nextColumn.fixed;
-  const isLastFixed = fixed && (parentIsfixed ? [true, 'left'].includes(parentIsfixed) : true) && (
+  const isLastFixed = fixed && (parentIsfixed ? [true, 'left'].includes(parentIsfixed) && parentIsLastFixed : true) && (
     (parentIsfixed && !nextColumn) ||
     (!parentIsfixed && nextColumn && !nextColumn.fixed)
   );
 
   const prevColumn = columns[index - 1];
   const _parentIsFirstFixed = fixed && parentIsfixed === undefined && prevColumn && !prevColumn.fixed;
-  const isFirstFixed = fixed && (parentIsfixed ? parentIsfixed === 'right' : true) && (
+  const isFirstFixed = fixed && (parentIsfixed ? parentIsfixed === 'right' && parentIsFirstFixed : true) && (
     (parentIsfixed && !prevColumn) ||
     (!parentIsfixed && prevColumn && !prevColumn.fixed)
   );
