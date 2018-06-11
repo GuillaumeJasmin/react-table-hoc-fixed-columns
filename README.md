@@ -2,7 +2,7 @@
 ReactTable HOC fixed columns
 ---
 
-Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed 1 or more columns.
+Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed one or more columns on the left and/or on the right.
 
 [Demo here](https://guillaumejasmin.github.io/react-table-hoc-fixed-columns/)
 
@@ -12,13 +12,15 @@ Higher Order Components for [ReactTable](https://react-table.js.org). It make po
 npm install react-table-hoc-fixed-columns --save
 ```
 
-It's really simple: add `fixed` property to your columns:
+It's really simple: add `fixed` property to your columns with value `left` and `right`
+
+*** Note: *** for migration to `v0.1.x` to `v1.x.x` , `fixed: true` is equivalent to `fixed: left`, no need to change the value.
 
 
 ```js
 import ReactTable from 'react-table';
-import createTable from 'react-table-hoc-fixed-columns';
-const ReactTableFixedColumns = createTable(ReactTable);
+import withFixedColumns from 'react-table-hoc-fixed-columns';
+const ReactTableFixedColumns = withFixedColumns(ReactTable);
 ...
 render () {
   return (
@@ -28,36 +30,31 @@ render () {
         {
           Header: 'First Name',
           accessor: 'firstName',
-          fixed: true,
+          fixed: 'left',
         },
         {
           Header: 'Last Name',
           accessor: 'lastName',
-          fixed: true,
+          fixed: 'left',
         },
+        ...
         {
           Header: 'age',
           accessor: 'age',
-        },
-        {
-          Header: 'other',
-          columns: [
-            ...
-          ]
-        },
+          fixed: 'right',
+        }
       ]}
     />
   )
 }
 ```
 
-*Notes:*
+*** Notes: ***
   * It's a workaround, because the main `ReactTable` package currently not provide a way to have fixed columns. 
   * animation is not always smooth, it depend on your browser, OS, and scroll trigger (mouse wheel or scroll bar), but it works.
-  * fixed columns must be placed a the index 0
-  * fixed columns cannot be placed in a group
+  * fixed columns works on simple column or groups
   * fixed columns are resizable
-  * fixed columns must have a hardcoded `width`, by default it's 150 
+  * works with differents cell height
   
    
 
