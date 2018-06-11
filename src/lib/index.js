@@ -53,17 +53,17 @@ const sortColumns = columns => columns.sort((a, b) => {
 
 const getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) => columns.map((column, index) => {
   const fixed = column.fixed || parentIsfixed || false;
-  
+
   const nextColumn = columns[index + 1];
   const _parentIsLastFixed = fixed && parentIsfixed === undefined && nextColumn && !nextColumn.fixed;
-  const isLastFixed = fixed && (
+  const isLastFixed = fixed && (parentIsfixed ? [true, 'left'].includes(parentIsfixed) : true) && (
     (parentIsfixed && !nextColumn) ||
     (!parentIsfixed && nextColumn && !nextColumn.fixed)
   );
 
   const prevColumn = columns[index - 1];
   const _parentIsFirstFixed = fixed && parentIsfixed === undefined && prevColumn && !prevColumn.fixed;
-  const isFirstFixed = fixed && (
+  const isFirstFixed = fixed && (parentIsfixed ? parentIsfixed === 'right' : true) && (
     (parentIsfixed && !prevColumn) ||
     (!parentIsfixed && prevColumn && !prevColumn.fixed)
   );
