@@ -95,7 +95,6 @@ export default (ReactTable) => {
   class ReactTableFixedColumns extends React.Component {
     static propTypes = {
       columns: PropTypes.array.isRequired,
-      getTdProps: PropTypes.func,
       getProps: PropTypes.func,
       innerRef: PropTypes.func,
       className: PropTypes.string,
@@ -104,7 +103,6 @@ export default (ReactTable) => {
     }
 
     static defaultProps = {
-      getTdProps: null,
       getProps: null,
       innerRef: null,
       className: null,
