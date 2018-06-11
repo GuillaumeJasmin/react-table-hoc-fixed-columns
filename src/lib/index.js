@@ -53,12 +53,21 @@ const sortColumns = columns => columns.sort((a, b) => {
 
 const getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) => columns.map((column, index) => {
   const fixed = column.fixed || parentIsfixed || false;
+  
   const nextColumn = columns[index + 1];
-  const _parentIsLastFixed = parentIsfixed === undefined && nextColumn && !nextColumn.fixed;
-  const isLast = !nextColumn;
+  const _parentIsLastFixed = fixed && parentIsfixed === undefined && nextColumn && !nextColumn.fixed;
+  const isLastFixed = fixed && (
+    (parentIsfixed && !nextColumn) ||
+    (!parentIsfixed && nextColumn && !nextColumn.fixed)
+  );
+
   const prevColumn = columns[index - 1];
-  const _parentIsFirstFixed = parentIsfixed === undefined && prevColumn && !prevColumn.fixed;
-  const isFirst = !prevColumn;
+  const _parentIsFirstFixed = fixed && parentIsfixed === undefined && prevColumn && !prevColumn.fixed;
+  const isFirstFixed = fixed && (
+    (parentIsfixed && !prevColumn) ||
+    (!parentIsfixed && prevColumn && !prevColumn.fixed)
+  );
+
   return {
     ...column,
     fixed,
@@ -67,16 +76,16 @@ const getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed, parentIs
       fixed && fixedClassName,
       isLeftFixed({ fixed }) && fixedLeftClassName,
       isRightFixed({ fixed }) && fixedRightClassName,
-      parentIsLastFixed && isLast && lastLeftFixedClassName,
-      parentIsFirstFixed && isFirst && lastRightFixedClassName,
+      isLastFixed && lastLeftFixedClassName,
+      isFirstFixed && lastRightFixedClassName,
     ),
     headerClassName: cx(
       column.headerClassName,
       fixed && fixedClassName,
       isLeftFixed({ fixed }) && fixedLeftClassName,
       isRightFixed({ fixed }) && fixedRightClassName,
-      (_parentIsLastFixed || (parentIsLastFixed && isLast)) && lastLeftFixedClassName,
-      (_parentIsFirstFixed || (parentIsFirstFixed && isFirst)) && lastRightFixedClassName,
+      (_parentIsLastFixed || (parentIsLastFixed && isLastFixed)) && lastLeftFixedClassName,
+      (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && lastRightFixedClassName,
     ),
     columns: column.columns && getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed),
   };
