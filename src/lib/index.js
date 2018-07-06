@@ -165,7 +165,7 @@ export default (ReactTable) => {
       if (propertyProps) {
         propertyProps(...args);
       }
-      this.updatePos();
+      this.calculatePos();
     }
 
     updatePos(target = this.tableRef) {
