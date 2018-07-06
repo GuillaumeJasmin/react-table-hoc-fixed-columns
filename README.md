@@ -1,5 +1,5 @@
 
-ReactTable HOC fixed columns
+ReactTable HOC fixed columns - Beta
 ---
 
 Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed one or more columns on the left and/or on the right.
