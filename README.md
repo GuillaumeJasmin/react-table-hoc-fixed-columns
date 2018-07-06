@@ -49,6 +49,48 @@ render () {
 }
 ```
 
+Fixed columns also work with groups.
+
+*Tips:* if your table contain at least one header group, place yours fixed columns into a group too (even with an empty Header name)
+
+```js
+import ReactTable from 'react-table';
+import withFixedColumns from 'react-table-hoc-fixed-columns';
+const ReactTableFixedColumns = withFixedColumns(ReactTable);
+...
+render () {
+  return (
+    <ReactTableFixedColumns
+      data={data}
+      columns={[
+        {
+          Header: 'Group names',
+          fixed: 'left',
+          columns: [
+            {
+              Header: 'First Name',
+              accessor: 'firstName',
+            },
+            {
+              Header: 'Last Name',
+              accessor: 'lastName',
+            },
+          ]
+        },
+        {
+          Header: 'Other group',
+          columns: [
+            ...
+          ]
+        }
+      ]}
+    />
+  )
+}
+```
+
+
+
 *Notes:*
   * It's a workaround, because the main `ReactTable` package currently not provide a way to have fixed columns. 
   * animation is not always smooth, it depend on your browser, OS, and scroll trigger (mouse wheel or scroll bar), but it works.
