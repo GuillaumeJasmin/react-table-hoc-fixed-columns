@@ -4,7 +4,7 @@ ReactTable HOC fixed columns
 
 Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed one or more columns on the left and/or on the right.
 
-[Demo here](https://guillaumejasmin.github.io/react-table-hoc-fixed-columns/)
+[Demo on CodeSandbox here](https://codesandbox.io/s/jnjv6j495y)
 
 ## Config
 
