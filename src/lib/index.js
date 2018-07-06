@@ -4,8 +4,8 @@ import uniqid from 'uniqid';
 import cx from 'classnames';
 import { css } from 'emotion';
 
-const fixedLeftClassName = '__fixedLeftClassName';
-const fixedRightClassName = '__fixedRightClassName';
+const fixedLeftClassName = uniqid();
+const fixedRightClassName = uniqid();
 
 const fixedClassName = css`
   position: relative;
