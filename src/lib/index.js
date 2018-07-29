@@ -42,14 +42,13 @@ const lastRightFixedClassName = css`
 
 const isLeftFixed = column => [true, 'left'].includes(column.fixed);
 const isRightFixed = column => column.fixed === 'right';
+const isNotFixed = column => !column.fixed;
 
-const sortColumns = columns => columns.sort((a, b) => {
-  if (isLeftFixed(a) && !isLeftFixed(b)) return -1;
-  if (!isLeftFixed(a) && isLeftFixed(b)) return 1;
-  if (isRightFixed(a) && !isRightFixed(b)) return 1;
-  if (!isRightFixed(a) && isRightFixed(b)) return -1;
-  return 0;
-});
+const sortColumns = columns => [
+  ...columns.filter(isLeftFixed),
+  ...columns.filter(isNotFixed),
+  ...columns.filter(isRightFixed),
+];
 
 const getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) => columns.map((column, index) => {
   const fixed = column.fixed || parentIsfixed || false;
