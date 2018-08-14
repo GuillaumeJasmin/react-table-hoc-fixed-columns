@@ -31,12 +31,10 @@ const tableClassName = css`
 const border = 'solid 1px #ccc !important';
 
 const lastLeftFixedClassName = css`
-  box-shadow: 2px 0px 4px #eee !important;
   border-right: ${border};
 `;
 
 const lastRightFixedClassName = css`
-  box-shadow: -2px 0px 4px #eee !important;
   border-left: ${border};
 `;
 
