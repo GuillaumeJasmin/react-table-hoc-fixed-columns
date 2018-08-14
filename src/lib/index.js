@@ -9,7 +9,6 @@ const styleFixedVisible = {
   height: '100%',
   backgroundColor: '#fff',
   zIndex: 3,
-  boxShadow: '2px 0px 5px #ddd',
 };
 
 export default ReactTable => class ReactTableFixedColumns extends React.Component {
