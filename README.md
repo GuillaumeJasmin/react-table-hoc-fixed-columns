@@ -122,4 +122,4 @@ Follow these steps to get started developing :
 * `npm install`
 * `npm run lib:watch` - Transpile the `src/lib` folder in watch mode
 * `npm run docs` - start a development server with the demo website based on the `src/docs` folder.
-* Go to http://127.0.0.1:8181 to see the demo in action. Whenever you change the code in either src/lib or src/docs, the page will automatically update.
+* Go to http://127.0.0.1:8989 to see the demo in action. Whenever you change the code in either src/lib or src/docs, the page will automatically update.
