@@ -22,14 +22,14 @@ export default (ReactTable) => {
       innerRef: PropTypes.func,
       className: PropTypes.string,
       onResizedChange: PropTypes.func,
-      rowOddColor: PropTypes.string,
+      stripedColor: PropTypes.string,
     }
 
     static defaultProps = {
       innerRef: null,
       className: null,
       onResizedChange: null,
-      rowOddColor: null,
+      stripedColor: null,
     }
 
     constructor(props) {
@@ -151,16 +151,16 @@ export default (ReactTable) => {
 
     render() {
       const {
-        className, innerRef, rowOddColor, ...props
+        className, innerRef, stripedColor, ...props
       } = this.props;
 
-      const finalRowOddColor = (className || '').indexOf('-striped') !== -1 ? '#f7f7f7' : rowOddColor;
+      const finalStripedColor = (className || '').indexOf('-striped') !== -1 ? '#f7f7f7' : stripedColor;
 
       return (
         <ReactTable
           {...props}
           ref={innerRef}
-          className={cx(className, getTableClassName(finalRowOddColor))}
+          className={cx(className, getTableClassName(finalStripedColor))}
           columns={this.getColumns()}
           onResizedChange={this.onResizedChange}
         />

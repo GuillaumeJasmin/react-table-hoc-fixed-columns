@@ -179,6 +179,7 @@ function Demo() {
               },
             ]}
             defaultPageSize={50}
+            className="-striped"
           />
         </div>
       </div>
