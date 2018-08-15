@@ -121,21 +121,6 @@ function Demo() {
                     accessor: 'firstName',
                     width: 150,
                   },
-                  // {
-                  //   Header: 'Last Name',
-                  //   accessor: 'lastName',
-                  //   width: 150,
-                  // },
-                ],
-              },
-              {
-                fixed: 'left',
-                columns: [
-                  // {
-                  //   Header: 'First Name',
-                  //   accessor: 'firstName',
-                  //   width: 150,
-                  // },
                   {
                     Header: 'Last Name',
                     accessor: 'lastName',
