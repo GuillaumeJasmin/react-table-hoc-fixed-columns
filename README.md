@@ -2,19 +2,40 @@
 ReactTable HOC fixed columns - Beta
 ---
 
-Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed one or more columns on the left and/or on the right.
+Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed one or more columns on the left and/or on the right. It use `position: sticky` for recent browsers, and [fallback for legacy browser](#legacy-browsers).
 
-[Demo on CodeSandbox here](https://codesandbox.io/s/jnjv6j495y)
+Check sticky support [https://caniuse.com/#search=sticky](https://caniuse.com/#search=sticky)
 
-## Config
+# Documentation
+
+* [Demo on CodeSandbox](https://codesandbox.io/s/jnjv6j495y)
+* [Install](#install)
+* [Simple example](#simple-example)
+* [Props](#props)
+* [Legacy browsers](#legacy-browsers)
+* [Contribute](#contribute)
+
+
+## Features
+* fix columns on the left and / or on the right side
+* fixed columns can be a group
+* works with fixed header
+* `-striped` and `-highlight` className still working, even on fixed columns
+* fixed columns are resizable
+* works with differents cell height
+* fallback for legacy browsers
+
+<a href="#install"></a>
+## Install
 
 ```bash
 npm install react-table-hoc-fixed-columns@next --save
 ```
 
-It's really simple: add `fixed` property to your columns with value `left` and `right`
 
-*Note:* for migration to `v0.1.x` to `v1.x.x` , `fixed: true` is equivalent to `fixed: left`, no need to change the value.
+## Simple example
+
+It's really simple: add `fixed` property to your columns with value `left` and `right`
 
 
 ```js
@@ -88,33 +109,53 @@ render () {
   )
 }
 ```
-
-
-
-*Notes:*
-  * It's a workaround, because the main `ReactTable` package currently not provide a way to have fixed columns. 
-  * animation is not always smooth, it depend on your browser, OS, and scroll trigger (mouse wheel or scroll bar), but it works.
-  * fixed columns works on simple column or groups
-  * fixed columns are resizable
-  * works with differents cell height
   
-   
+## Props
 
-## Table Ref
+There is some custom props that can be usefull
 
-If you need to access ReactTable ref, use `innerRef`: 
+* `stripedColor` - CSS color value of striped rows. That overrided className `-striped`
+
+* `highlightColor` - CSS color value of hilighted rows. That overrided className `-highlight`
+
+* `innerRef` - ref to the ReactTable component
+  ```js
+  render () {
+    return (
+      <ReactTableFixedColumns
+        innerRef={(ref) => { this.tableRef = ref; }}
+      />
+    )
+  }
+  ```
+
+## Legacy browsers
+
+If the browser doesn't support `position: sticky`, there is a fallback with `transform: translate3d()` on each scroll event. The animation is not always smooth, it depend on your browser, OS, and scroll trigger (mouse wheel or scroll bar), but it works.
+
+You can force to use only legacy browsers version:
 
 ```js
-render () {
-  return (
-    <ReactTableFixedColumns
-      innerRef={(ref) => { this.tableRef = ref; }}
-    />
-  )
-}
+import { withFixedColumnsScrollEvent } from 'react-table-hoc-fixed-columns'
+import ReactTable from 'react-table';
+
+const Table = withFixedColumnsScrollEvent(ReactTable);
 ```
 
-## Dev
+or also force only sticky position version:
+
+```js
+import { withFixedColumnsStickyPosition } from 'react-table-hoc-fixed-columns'
+...
+```
+
+
+Check sticky support [https://caniuse.com/#search=sticky](https://caniuse.com/#search=sticky)
+
+## Migrate `v0` to `v1`
+For migration to `v0.1.x` to `v1.x.x` , `fixed: true` is equivalent to `fixed: left`, no need to change the value.
+
+## Contribute
 
 Follow these steps to get started developing :
 

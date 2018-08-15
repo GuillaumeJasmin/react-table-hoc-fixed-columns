@@ -11,7 +11,7 @@ import {
   getEmail,
   getStreet,
   getCity,
-  mathsRandomInt,
+  // mathsRandomInt,
 } from '../../src/FakeData.js';
 
 const ReactTableFixedColumns = withFixedColumns(ReactTable);
@@ -103,6 +103,7 @@ function Demo() {
               },
             ]}
             defaultPageSize={50}
+            className="-striped"
           />
         </div>
 
@@ -132,23 +133,13 @@ function Demo() {
                 columns: [
                   {
                     Header: 'Full name',
-                    accessor: 'lastName',
+                    id: 'Full Name',
                     width: 150,
                     Cell: row => <div>{row.original.firstName}<br />{row.original.lastName}</div>,
                   },
                   {
                     Header: 'Age',
                     accessor: 'age',
-                  },
-                  {
-                    Header: 'Email',
-                    accessor: 'email',
-                    width: 300,
-                  },
-                  {
-                    Header: 'Professional Email',
-                    accessor: 'proEmail',
-                    width: 300,
                   },
                 ],
               },
@@ -171,8 +162,24 @@ function Demo() {
                   },
                 ],
               },
+              {
+                fixed: 'right',
+                columns: [
+                  {
+                    Header: 'Professional Email',
+                    accessor: 'proEmail',
+                    width: 200,
+                  },
+                  {
+                    Header: 'Email',
+                    accessor: 'email',
+                    width: 200,
+                  },
+                ],
+              },
             ]}
             defaultPageSize={50}
+            className="-striped"
           />
         </div>
       </div>
