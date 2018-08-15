@@ -2,7 +2,7 @@
 ReactTable HOC fixed columns - Beta
 ---
 
-Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed one or more columns on the left and/or on the right. It use `position: sticky` for recents browsers, and [fallback for legacy browser](#legacy-browsers).
+Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed one or more columns on the left and/or on the right. It use `position: sticky` for recent browsers, and [fallback for legacy browser](#legacy-browsers).
 
 Check sticky support [https://caniuse.com/#search=sticky](https://caniuse.com/#search=sticky)
 
@@ -11,8 +11,8 @@ Check sticky support [https://caniuse.com/#search=sticky](https://caniuse.com/#s
 * [Demo on CodeSandbox](https://codesandbox.io/s/jnjv6j495y)
 * [Install](#install)
 * [Simple example](#simple-example)
-* [custom props](#props)
-* [Legacy browsers](legacy-browsers)
+* [Props](#props)
+* [Legacy browsers](#legacy-browsers)
 * [Contribute](#contribute)
 
 
@@ -32,8 +32,6 @@ Check sticky support [https://caniuse.com/#search=sticky](https://caniuse.com/#s
 npm install react-table-hoc-fixed-columns@next --save
 ```
 
-
-<a href="#simple-example"></a>
 
 ## Simple example
 
@@ -112,7 +110,7 @@ render () {
 }
 ```
   
-## Custom Props
+## Props
 
 There is some custom props that can be usefull
 
@@ -131,7 +129,6 @@ There is some custom props that can be usefull
   }
   ```
 
-<a href="#legacy-browsers"></a>
 ## Legacy browsers
 
 If the browser doesn't support `position: sticky`, there is a fallback with `transform: translate3d()` on each scroll event. The animation is not always smooth, it depend on your browser, OS, and scroll trigger (mouse wheel or scroll bar), but it works.
@@ -158,7 +155,6 @@ Check sticky support [https://caniuse.com/#search=sticky](https://caniuse.com/#s
 ## Migrate `v0` to `v1`
 For migration to `v0.1.x` to `v1.x.x` , `fixed: true` is equivalent to `fixed: left`, no need to change the value.
 
-<a href="#contribute"></a>
 ## Contribute
 
 Follow these steps to get started developing :
