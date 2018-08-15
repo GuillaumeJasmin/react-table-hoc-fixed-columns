@@ -4,8 +4,6 @@ ReactTable HOC fixed columns - Beta
 
 Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed one or more columns on the left and/or on the right. It use `position: sticky` for recent browsers, and [fallback for legacy browser](#legacy-browsers).
 
-Check sticky support [https://caniuse.com/#search=sticky](https://caniuse.com/#search=sticky)
-
 # Documentation
 
 * [Demo on CodeSandbox](https://codesandbox.io/s/jnjv6j495y)
