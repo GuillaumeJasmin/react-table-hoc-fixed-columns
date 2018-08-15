@@ -24,6 +24,6 @@ export const tableClassName = css`
   }
 
   .rt-thead.-headerGroups {
-    border-bottom-color: #f2f2f2;
+    border-bottom-color: #f2f2f2 !important;
   }
 `;
