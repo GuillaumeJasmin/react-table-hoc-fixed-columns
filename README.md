@@ -8,7 +8,7 @@ Check sticky support [https://caniuse.com/#search=sticky](https://caniuse.com/#s
 
 # Documentation
 
-* [Demo on CodeSandbox here](https://codesandbox.io/s/jnjv6j495y)
+* [Demo on CodeSandbox](https://codesandbox.io/s/jnjv6j495y)
 * [Install](#install)
 * [Simple example](#simple-example)
 * [custom props](#props)
