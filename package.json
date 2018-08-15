@@ -9,6 +9,9 @@
     "docs": "webpack-dev-server",
     "docs:prod": "rm -rf docs && webpack -p"
   },
+  "publishConfig": {
+    "tag": "next"
+  },
   "keywords": [],
   "license": "MIT",
   "files": [
