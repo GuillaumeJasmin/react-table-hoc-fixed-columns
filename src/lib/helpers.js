@@ -1,8 +1,7 @@
 export const getColumnId = (column) => {
   if (column.id) return column.id;
   if (typeof column.accessor === 'string') return column.accessor;
-  if (column.columns) return null;
-  throw new Error(`react-table-hoc-fixed-columns: Column ${column.Header} must have id or string accessor`);
+  return null;
 };
 
 export const isLeftFixed = column => [true, 'left'].includes(column.fixed);
