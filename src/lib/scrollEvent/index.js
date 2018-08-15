@@ -2,57 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
 import cx from 'classnames';
+import { fixedClassName } from './styles';
 import {
-  tableClassName,
-  fixedClassName,
-  fixedLeftClassName,
-  fixedRightClassName,
-} from './styles';
-import {
+  getTableClassName,
   lastLeftFixedClassName,
   lastRightFixedClassName,
 } from '../styles';
 import { isLeftFixed, isRightFixed, sortColumns } from '../helpers';
-
-const getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) => columns.map((column, index) => {
-  const fixed = column.fixed || parentIsfixed || false;
-
-  const nextColumn = columns[index + 1];
-  const _parentIsLastFixed = fixed && parentIsfixed === undefined && nextColumn && !nextColumn.fixed;
-  const isLastFixed = fixed && (parentIsfixed ? [true, 'left'].includes(parentIsfixed) && parentIsLastFixed : true) && (
-    (parentIsfixed && !nextColumn) ||
-    (!parentIsfixed && nextColumn && !nextColumn.fixed)
-  );
-
-  const prevColumn = columns[index - 1];
-  const _parentIsFirstFixed = fixed && parentIsfixed === undefined && prevColumn && !prevColumn.fixed;
-  const isFirstFixed = fixed && (parentIsfixed ? parentIsfixed === 'right' && parentIsFirstFixed : true) && (
-    (parentIsfixed && !prevColumn) ||
-    (!parentIsfixed && prevColumn && !prevColumn.fixed)
-  );
-
-  return {
-    ...column,
-    fixed,
-    className: cx(
-      column.className,
-      fixed && fixedClassName,
-      isLeftFixed({ fixed }) && fixedLeftClassName,
-      isRightFixed({ fixed }) && fixedRightClassName,
-      isLastFixed && lastLeftFixedClassName,
-      isFirstFixed && lastRightFixedClassName,
-    ),
-    headerClassName: cx(
-      column.headerClassName,
-      fixed && fixedClassName,
-      isLeftFixed({ fixed }) && fixedLeftClassName,
-      isRightFixed({ fixed }) && fixedRightClassName,
-      (_parentIsLastFixed || (parentIsLastFixed && isLastFixed)) && lastLeftFixedClassName,
-      (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && lastRightFixedClassName,
-    ),
-    columns: column.columns && getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed),
-  };
-});
 
 export default (ReactTable) => {
   class ReactTableFixedColumns extends React.Component {
@@ -61,12 +17,16 @@ export default (ReactTable) => {
       getProps: PropTypes.func,
       innerRef: PropTypes.func,
       className: PropTypes.string,
+      stripedColor: PropTypes.string,
+      highlightColor: PropTypes.string,
     }
 
     static defaultProps = {
       getProps: null,
       innerRef: null,
       className: null,
+      stripedColor: null,
+      highlightColor: null,
     }
 
     constructor(props) {
@@ -81,6 +41,9 @@ export default (ReactTable) => {
         ].join('\n\n'));
       }
 
+      this.fixedLeftClassName = uniqid();
+      this.fixedRightClassName = uniqid();
+
       this.onChangePropertyList = {
         onResizedChange: this.onChangeProperty('onResizedChange'),
         onFilteredChange: this.onChangeProperty('onFilteredChange'),
@@ -93,8 +56,8 @@ export default (ReactTable) => {
     componentDidMount() {
       this.tableRef = document.querySelector(`[${this.tableDataId}] .rt-table`);
       this.calculatePos();
-      this.leftFixedCells = this.tableRef.querySelectorAll(`.${fixedLeftClassName}`);
-      this.rightFixedCells = this.tableRef.querySelectorAll(`.${fixedRightClassName}`);
+      this.leftFixedCells = this.tableRef.querySelectorAll(`.${this.fixedLeftClassName}`);
+      this.rightFixedCells = this.tableRef.querySelectorAll(`.${this.fixedRightClassName}`);
     }
 
     componentDidUpdate() {
@@ -123,20 +86,60 @@ export default (ReactTable) => {
 
     updatePos(target = this.tableRef) {
       /* eslint-disable no-param-reassign */
-      target.querySelectorAll(`.${fixedLeftClassName}`).forEach((td) => {
+      target.querySelectorAll(`.${this.fixedLeftClassName}`).forEach((td) => {
         td.style.transform = `translate3d(${this.nextTranslateLeftX}px, 0, 0)`;
       });
 
-      target.querySelectorAll(`.${fixedRightClassName}`).forEach((td) => {
+      target.querySelectorAll(`.${this.fixedRightClassName}`).forEach((td) => {
         td.style.transform = `translate3d(${-this.nextTranslateRightX}px, 0, 0)`;
       });
       /* eslint-enable no-param-reassign */
     }
 
+    getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) => columns.map((column, index) => {
+      const fixed = column.fixed || parentIsfixed || false;
+
+      const nextColumn = columns[index + 1];
+      const _parentIsLastFixed = fixed && parentIsfixed === undefined && nextColumn && !nextColumn.fixed;
+      const isLastFixed = fixed && (parentIsfixed ? [true, 'left'].includes(parentIsfixed) && parentIsLastFixed : true) && (
+        (parentIsfixed && !nextColumn) ||
+        (!parentIsfixed && nextColumn && !nextColumn.fixed)
+      );
+
+      const prevColumn = columns[index - 1];
+      const _parentIsFirstFixed = fixed && parentIsfixed === undefined && prevColumn && !prevColumn.fixed;
+      const isFirstFixed = fixed && (parentIsfixed ? parentIsfixed === 'right' && parentIsFirstFixed : true) && (
+        (parentIsfixed && !prevColumn) ||
+        (!parentIsfixed && prevColumn && !prevColumn.fixed)
+      );
+
+      return {
+        ...column,
+        fixed,
+        className: cx(
+          column.className,
+          fixed && fixedClassName,
+          isLeftFixed({ fixed }) && this.fixedLeftClassName,
+          isRightFixed({ fixed }) && this.fixedRightClassName,
+          isLastFixed && lastLeftFixedClassName,
+          isFirstFixed && lastRightFixedClassName,
+        ),
+        headerClassName: cx(
+          column.headerClassName,
+          fixed && fixedClassName,
+          isLeftFixed({ fixed }) && this.fixedLeftClassName,
+          isRightFixed({ fixed }) && this.fixedRightClassName,
+          (_parentIsLastFixed || (parentIsLastFixed && isLastFixed)) && lastLeftFixedClassName,
+          (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && lastRightFixedClassName,
+        ),
+        columns: column.columns && this.getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed),
+      };
+    });
+
     getColumns() {
       const { columns } = this.props;
       const sortedColumns = sortColumns(columns);
-      const columnsWithFixed = getColumnsWithFixed(sortedColumns);
+      const columnsWithFixed = this.getColumnsWithFixed(sortedColumns);
       return columnsWithFixed;
     }
 
@@ -150,12 +153,19 @@ export default (ReactTable) => {
     }
 
     render() {
-      const { className, innerRef, ...props } = this.props;
+      const {
+        className,
+        innerRef,
+        stripedColor,
+        highlightColor,
+        ...props
+      } = this.props;
+
       return (
         <ReactTable
           {...props}
           ref={innerRef}
-          className={cx(className, tableClassName)}
+          className={cx(className, getTableClassName(this.props))}
           columns={this.getColumns()}
           getProps={this.getProps}
           {...this.onChangePropertyList}

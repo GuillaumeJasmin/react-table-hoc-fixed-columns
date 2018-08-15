@@ -1,14 +1,14 @@
 import { enableStickyPosition } from './helpers';
-import fixedColumnsStickyPosition from './stickyPosition';
-import fixedColumnsScrollEvent from './scrollEvent';
+import withFixedColumnsStickyPosition from './stickyPosition';
+import withFixedColumnsScrollEvent from './scrollEvent';
 
-const fixedColumns = enableStickyPosition()
-  ? fixedColumnsStickyPosition
-  : fixedColumnsScrollEvent; // use for legacy browser
+const withFixedColumns = enableStickyPosition()
+  ? withFixedColumnsStickyPosition
+  : withFixedColumnsScrollEvent; // use for legacy browser
 
 export {
-  fixedColumnsStickyPosition,
-  fixedColumnsScrollEvent,
+  withFixedColumnsStickyPosition,
+  withFixedColumnsScrollEvent,
 };
 
-export default fixedColumns;
+export default withFixedColumns;

@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
 import cx from 'classnames';
 import {
-  getTableClassName,
+  tableClassName,
   fixedClassName,
   fixedLeftClassName,
   fixedRightClassName,
 } from './styles';
 import {
+  getTableClassName,
   lastLeftFixedClassName,
   lastRightFixedClassName,
 } from '../styles';
@@ -23,6 +24,7 @@ export default (ReactTable) => {
       className: PropTypes.string,
       onResizedChange: PropTypes.func,
       stripedColor: PropTypes.string,
+      highlightColor: PropTypes.string,
     }
 
     static defaultProps = {
@@ -30,12 +32,12 @@ export default (ReactTable) => {
       className: null,
       onResizedChange: null,
       stripedColor: null,
+      highlightColor: null,
     }
 
     constructor(props) {
       super(props);
       const hasGroups = !!props.columns.find(column => column.columns);
-      this.tableDataId = `data-table-${uniqid()}`;
       const fixedColumnsWithoutGroup = props.columns.filter(column => column.fixed && !column.columns).map(({ Header }) => `'${Header}'`);
       if (hasGroups && fixedColumnsWithoutGroup.length) {
         console.warn([
@@ -44,7 +46,18 @@ export default (ReactTable) => {
         ].join('\n\n'));
       }
 
+      this.tableClassName = getTableClassName(this.props);
       this.columnsWidth = {};
+      this.uniqClassName = uniqid();
+    }
+
+    componentDidMount() {
+      const headerRows = document.querySelectorAll(`.${this.uniqClassName} .rt-thead`);
+      /* eslint-disable no-param-reassign */
+      Array.from(headerRows).forEach((row) => {
+        row.style.top = `${row.offsetTop}px`;
+      });
+      /* eslint-enable no-param-reassign */
     }
 
     onResizedChange = (...args) => {
@@ -151,16 +164,18 @@ export default (ReactTable) => {
 
     render() {
       const {
-        className, innerRef, stripedColor, ...props
+        className,
+        innerRef,
+        stripedColor,
+        highlightColor,
+        ...props
       } = this.props;
-
-      const finalStripedColor = (className || '').indexOf('-striped') !== -1 ? '#f7f7f7' : stripedColor;
 
       return (
         <ReactTable
           {...props}
           ref={innerRef}
-          className={cx(className, getTableClassName(finalStripedColor))}
+          className={cx(className, this.tableClassName, tableClassName, this.uniqClassName)}
           columns={this.getColumns()}
           onResizedChange={this.onResizedChange}
         />
