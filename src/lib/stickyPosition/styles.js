@@ -26,4 +26,10 @@ export const tableClassName = css`
   .rt-thead.-headerGroups {
     border-bottom-color: #f2f2f2 !important;
   }
+
+  .rt-tfoot {
+    position: sticky;
+    z-index: 1;
+    bottom: 0px;    
+  }
 `;

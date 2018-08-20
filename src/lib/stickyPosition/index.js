@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DefaultReactTable from 'react-table';
 import uniqid from 'uniqid';
 import cx from 'classnames';
 import {
@@ -178,6 +179,7 @@ export default (ReactTable) => {
           className={cx(className, this.tableClassName, tableClassName, this.uniqClassName)}
           columns={this.getColumns()}
           onResizedChange={this.onResizedChange}
+          TbodyComponent={propsTBody => (<div><DefaultReactTable.defaultProps.TbodyComponent {...propsTBody} /></div>)}
         />
       );
     }
