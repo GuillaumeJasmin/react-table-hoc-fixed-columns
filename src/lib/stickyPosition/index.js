@@ -26,6 +26,7 @@ export default (ReactTable) => {
       onResizedChange: PropTypes.func,
       stripedColor: PropTypes.string,
       highlightColor: PropTypes.string,
+      TbodyComponent: PropTypes.Function,
     }
 
     static defaultProps = {
@@ -34,6 +35,7 @@ export default (ReactTable) => {
       onResizedChange: null,
       stripedColor: null,
       highlightColor: null,
+      TbodyComponent: null,
     }
 
     constructor(props) {
@@ -163,6 +165,18 @@ export default (ReactTable) => {
       return columnsWithFixed;
     }
 
+    getTbodyComponent = (propsTBody, ...args) => {
+      const { TbodyComponent } = this.props;
+      return (
+        <div>
+          {TbodyComponent
+            ? TbodyComponent(propsTBody, ...args)
+            : <DefaultReactTable.defaultProps.TbodyComponent {...propsTBody} />
+          }
+        </div>
+      );
+    }
+
     render() {
       const {
         className,
@@ -179,7 +193,7 @@ export default (ReactTable) => {
           className={cx(className, this.tableClassName, tableClassName, this.uniqClassName)}
           columns={this.getColumns()}
           onResizedChange={this.onResizedChange}
-          TbodyComponent={propsTBody => (<div><DefaultReactTable.defaultProps.TbodyComponent {...propsTBody} /></div>)}
+          TbodyComponent={this.getTbodyComponent}
         />
       );
     }
