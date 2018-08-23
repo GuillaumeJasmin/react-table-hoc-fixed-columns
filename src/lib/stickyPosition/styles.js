@@ -16,6 +16,7 @@ export const fixedRightClassName = css`
 export const tableClassName = css`
   .rt-tbody {
     overflow: visible !important;
+    flex: 1 0 auto;
   }
 
   .rt-thead {
