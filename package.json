@@ -6,12 +6,10 @@
   "scripts": {
     "lib": "eslint src/lib/index.js && babel src/lib -d lib",
     "lib:watch": "babel src/lib -w -d lib",
-    "docs": "webpack-dev-server",
-    "docs:prod": "rm -rf docs && webpack -p"
+    "demo": "webpack-dev-server",
+    "demo:prod": "rm -rf docs && webpack -p"
   },
-  "publishConfig": {
-    "tag": "next"
-  },
+  "publishConfig": {},
   "keywords": [],
   "license": "MIT",
   "files": [
