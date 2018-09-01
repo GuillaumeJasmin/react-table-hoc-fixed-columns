@@ -27,7 +27,7 @@ Higher Order Components for [ReactTable](https://react-table.js.org). It make po
 ## Install
 
 ```bash
-npm install react-table-hoc-fixed-columns@next --save
+npm install react-table-hoc-fixed-columns --save
 ```
 
 
