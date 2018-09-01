@@ -1,16 +1,8 @@
 
-ReactTable HOC fixed columns
+ReactTable HOC fixed columns - v0 DEPRECATED
 ---
 
 Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed 1 or more columns.
-
-[Demo here](https://guillaumejasmin.github.io/react-table-hoc-fixed-columns/)
-
-## Try v1 beta
-
-* [v1 demo](https://codesandbox.io/s/jnjv6j495y)
-* [v1 docs](https://github.com/GuillaumeJasmin/react-table-hoc-fixed-columns/tree/next)
-* [v1 release note](https://github.com/GuillaumeJasmin/react-table-hoc-fixed-columns/releases/tag/v1.0.0-beta.3)
 ---
 
 ## Config
