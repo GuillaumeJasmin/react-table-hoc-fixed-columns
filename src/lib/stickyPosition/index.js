@@ -48,7 +48,7 @@ export default (ReactTable) => {
 
       this.tableClassName = getTableClassName(this.props);
       this.columnsWidth = {};
-      this.uniqClassName = uniqid();
+      this.uniqClassName = uniqid('rthfc-');
     }
 
     componentDidMount() {
