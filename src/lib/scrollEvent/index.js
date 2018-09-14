@@ -32,7 +32,7 @@ export default (ReactTable) => {
     constructor(props) {
       super(props);
       const hasGroups = !!props.columns.find(column => column.columns);
-      this.tableDataId = `data-table-${uniqid()}`;
+      this.tableDataId = `data-table-${uniqid('rthfc-')}`;
       const fixedColumnsWithoutGroup = props.columns.filter(column => column.fixed && !column.columns).map(({ Header }) => `'${Header}'`);
       if (hasGroups && fixedColumnsWithoutGroup.length) {
         console.warn([
@@ -41,8 +41,8 @@ export default (ReactTable) => {
         ].join('\n\n'));
       }
 
-      this.fixedLeftClassName = uniqid();
-      this.fixedRightClassName = uniqid();
+      this.fixedLeftClassName = uniqid('rthfc-');
+      this.fixedRightClassName = uniqid('rthfc-');
 
       this.onChangePropertyList = {
         onResizedChange: this.onChangeProperty('onResizedChange'),
