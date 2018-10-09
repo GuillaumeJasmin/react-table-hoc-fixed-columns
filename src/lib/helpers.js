@@ -15,6 +15,7 @@ export const sortColumns = columns => [
 ];
 
 export const enableStickyPosition = () => {
+  if (!document) return true; // document is undefined in SSR
   const el = document.createElement('a');
   const mStyle = el.style;
   mStyle.cssText = 'position:sticky;position:-webkit-sticky;position:-ms-sticky;';
