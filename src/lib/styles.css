@@ -11,7 +11,7 @@
 .rthfc .rt-td {
   background-color: #fff;
 }
-  
+
 .rthfc .-headerGroups .rt-th {
   background-color: #f7f7f7;
 }
@@ -79,5 +79,5 @@
 .rthfc.-se .-filters .rt-th.rthfc-th-fixed,
 .rthfc.-se .rt-td.rthfc-td-fixed {
   position: relative;
-  z-Index: 2;
+  z-Index: 1;
 }
