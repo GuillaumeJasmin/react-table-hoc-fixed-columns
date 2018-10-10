@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import withFixedColumns from '../../lib';
-import '../lib/styles.css';
+import '../../lib/styles.css';
 import './styles.css';
 import {
   getFirstName,
