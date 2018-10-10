@@ -1,0 +1,83 @@
+.rthfc .rt-thead.-headerGroups,
+.rthfc .rt-thead.-header {
+  z-index: 3;
+}
+
+.rthfc .rt-thead.-filters {
+  z-index: 2;
+}
+
+.rthfc .rt-th,
+.rthfc .rt-td {
+  background-color: #fff;
+}
+  
+.rthfc .-headerGroups .rt-th {
+  background-color: #f7f7f7;
+}
+
+.rthfc.-striped .rt-tr.-odd .rt-td {
+  background-color: #f7f7f7;
+}
+
+.rthfc.-highlighted .rt-tr:hover .rt-td {
+  background-color: #f2f2f2;
+}
+
+.rthfc .-filters .rt-th.rthfc-th-fixed-left-last,
+.rthfc .rt-th.rthfc-th-fixed-left-last,
+.rthfc .rt-td.rthfc-td-fixed-left-last {
+  border-right: solid 1px #ccc;
+}
+
+.rthfc .rt-th.rthfc-th-fixed-right-last,
+.rthfc .rt-td.rthfc-td-fixed-right-last {
+  border-left: solid 1px #ccc;
+}
+
+/*------------ Sticky position version: -sp ------------*/
+
+.rthfc.-sp .rt-tbody {
+  overflow: visible;
+  flex: 1 0 auto;
+}
+
+.rthfc.-sp .rt-thead {
+  position: sticky;
+}
+
+.rthfc.-sp .rt-thead.-headerGroups {
+  border-bottom-color: #f2f2f2;
+}
+
+.rthfc.-sp .rt-tfoot {
+  position: sticky;
+  z-index: 1;
+  bottom: 0px;
+}
+
+.rthfc.-sp .rthfc-th-fixed,
+.rthfc.-sp .rthfc-td-fixed {
+  position: sticky;
+  z-index: 1;
+}
+
+.rthfc.-sp .rthfc-th-fixed-left,
+.rthfc.-sp .rthfc-td-fixed-left {
+  left: 0;
+}
+
+.rthfc.-sp .rthfc-th-fixed-right,
+.rthfc.-sp .rthfc-td-fixed-right {
+  left: 0;
+}
+
+/*------------ scroll event version: -se ------------*/
+
+.rthfc.-se .-header .rt-th.rthfc-th-fixed,
+.rthfc.-se .-headerGroups .rt-th.rthfc-th-fixed,
+.rthfc.-se .-filters .rt-th.rthfc-th-fixed,
+.rthfc.-se .rt-td.rthfc-td-fixed {
+  position: relative;
+  z-Index: 2;
+}

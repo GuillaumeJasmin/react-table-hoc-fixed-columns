@@ -2,12 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
 import cx from 'classnames';
-import { fixedClassName } from './styles';
-import {
-  getTableClassName,
-  lastLeftFixedClassName,
-  lastRightFixedClassName,
-} from '../styles';
 import { isLeftFixed, isRightFixed, sortColumns } from '../helpers';
 
 export default (ReactTable) => {
@@ -17,22 +11,17 @@ export default (ReactTable) => {
       getProps: PropTypes.func,
       innerRef: PropTypes.func,
       className: PropTypes.string,
-      stripedColor: PropTypes.string,
-      highlightColor: PropTypes.string,
     }
 
     static defaultProps = {
       getProps: null,
       innerRef: null,
       className: null,
-      stripedColor: null,
-      highlightColor: null,
     }
 
     constructor(props) {
       super(props);
       const hasGroups = !!props.columns.find(column => column.columns);
-      this.tableDataId = `data-table-${uniqid('rthfc-')}`;
       const fixedColumnsWithoutGroup = props.columns.filter(column => column.fixed && !column.columns).map(({ Header }) => `'${Header}'`);
       if (hasGroups && fixedColumnsWithoutGroup.length) {
         console.warn([
@@ -41,8 +30,7 @@ export default (ReactTable) => {
         ].join('\n\n'));
       }
 
-      this.fixedLeftClassName = uniqid('rthfc-');
-      this.fixedRightClassName = uniqid('rthfc-');
+      this.uniqClassName = uniqid('rthfc-');
 
       this.onChangePropertyList = {
         onResizedChange: this.onChangeProperty('onResizedChange'),
@@ -54,10 +42,10 @@ export default (ReactTable) => {
     }
 
     componentDidMount() {
-      this.tableRef = document.querySelector(`[${this.tableDataId}] .rt-table`);
+      this.tableRef = document.querySelector(`.${this.uniqClassName} .rt-table`);
       this.calculatePos();
-      this.leftFixedCells = this.tableRef.querySelectorAll(`.${this.fixedLeftClassName}`);
-      this.rightFixedCells = this.tableRef.querySelectorAll(`.${this.fixedRightClassName}`);
+      this.leftFixedCells = this.tableRef.querySelectorAll(`.${this.uniqClassName} .rthfc-fixed-left`);
+      this.rightFixedCells = this.tableRef.querySelectorAll(`.${this.uniqClassName} .rthfc-fixed-left`);
     }
 
     componentDidUpdate() {
@@ -86,11 +74,11 @@ export default (ReactTable) => {
 
     updatePos(target = this.tableRef) {
       /* eslint-disable no-param-reassign */
-      Array.from(target.querySelectorAll(`.${this.fixedLeftClassName}`)).forEach((td) => {
+      Array.from(target.querySelectorAll('.rthfc-th-fixed-left, .rthfc-td-fixed-left')).forEach((td) => {
         td.style.transform = `translate3d(${this.nextTranslateLeftX}px, 0, 0)`;
       });
 
-      Array.from(target.querySelectorAll(`.${this.fixedRightClassName}`)).forEach((td) => {
+      Array.from(target.querySelectorAll('.rthfc-th-fixed-right, .rthfc-td-fixed-right')).forEach((td) => {
         td.style.transform = `translate3d(${-this.nextTranslateRightX}px, 0, 0)`;
       });
       /* eslint-enable no-param-reassign */
@@ -118,19 +106,19 @@ export default (ReactTable) => {
         fixed,
         className: cx(
           column.className,
-          fixed && fixedClassName,
-          isLeftFixed({ fixed }) && this.fixedLeftClassName,
-          isRightFixed({ fixed }) && this.fixedRightClassName,
-          isLastFixed && lastLeftFixedClassName,
-          isFirstFixed && lastRightFixedClassName,
+          fixed && 'rthfc-td-fixed',
+          isLeftFixed({ fixed }) && 'rthfc-td-fixed-left',
+          isRightFixed({ fixed }) && 'rthfc-td-fixed-right',
+          isLastFixed && 'rthfc-td-fixed-left-last',
+          isFirstFixed && 'rthfc-td-fixed-right-last',
         ),
         headerClassName: cx(
           column.headerClassName,
-          fixed && fixedClassName,
-          isLeftFixed({ fixed }) && this.fixedLeftClassName,
-          isRightFixed({ fixed }) && this.fixedRightClassName,
-          (_parentIsLastFixed || (parentIsLastFixed && isLastFixed)) && lastLeftFixedClassName,
-          (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && lastRightFixedClassName,
+          fixed && 'rthfc-th-fixed',
+          isLeftFixed({ fixed }) && 'rthfc-th-fixed-left',
+          isRightFixed({ fixed }) && 'rthfc-th-fixed-right',
+          (_parentIsLastFixed || (parentIsLastFixed && isLastFixed)) && 'rthfc-th-fixed-left-last',
+          (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && 'rthfc-th-fixed-right-last',
         ),
         columns: column.columns && this.getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed),
       };
@@ -148,7 +136,6 @@ export default (ReactTable) => {
       return {
         ...(getProps && getProps(...args)),
         onScroll: this.onScrollX,
-        [this.tableDataId]: true,
       };
     }
 
@@ -156,8 +143,6 @@ export default (ReactTable) => {
       const {
         className,
         innerRef,
-        stripedColor,
-        highlightColor,
         ...props
       } = this.props;
 
@@ -165,7 +150,7 @@ export default (ReactTable) => {
         <ReactTable
           {...props}
           ref={innerRef}
-          className={cx(className, getTableClassName(this.props))}
+          className={cx(className, 'rthfc', '-se', this.uniqClassName)}
           columns={this.getColumns()}
           getProps={this.getProps}
           {...this.onChangePropertyList}

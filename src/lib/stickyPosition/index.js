@@ -2,19 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
 import cx from 'classnames';
-import {
-  tableClassName,
-  fixedClassName,
-  fixedLeftClassName,
-  fixedRightClassName,
-} from './styles';
-import {
-  getTableClassName,
-  lastLeftFixedClassName,
-  lastRightFixedClassName,
-} from '../styles';
 import { getColumnId, isLeftFixed, isRightFixed, sortColumns } from '../helpers';
-
 
 export default (ReactTable) => {
   class ReactTableFixedColumns extends React.Component {
@@ -23,16 +11,12 @@ export default (ReactTable) => {
       innerRef: PropTypes.func,
       className: PropTypes.string,
       onResizedChange: PropTypes.func,
-      stripedColor: PropTypes.string,
-      highlightColor: PropTypes.string,
     }
 
     static defaultProps = {
       innerRef: null,
       className: null,
       onResizedChange: null,
-      stripedColor: null,
-      highlightColor: null,
     }
 
     constructor(props) {
@@ -46,7 +30,7 @@ export default (ReactTable) => {
         ].join('\n\n'));
       }
 
-      this.tableClassName = getTableClassName(this.props);
+      // this.tableClassName = getTableClassName(this.props);
       this.columnsWidth = {};
       this.uniqClassName = uniqid('rthfc-');
     }
@@ -126,11 +110,11 @@ export default (ReactTable) => {
           fixed,
           className: cx(
             column.className,
-            fixed && fixedClassName,
-            columnIsLeftFixed && fixedLeftClassName,
-            columnIsRightFixed && fixedRightClassName,
-            isLastFixed && lastLeftFixedClassName,
-            isFirstFixed && lastRightFixedClassName,
+            fixed && 'rthfc-td-fixed',
+            columnIsLeftFixed && 'rthfc-td-fixed-left',
+            columnIsRightFixed && 'rthfc-td-fixed-right',
+            isLastFixed && 'rthfc-td-fixed-left-last',
+            isFirstFixed && 'rthfc-td-fixed-right-last',
           ),
           style: {
             ...column.style,
@@ -139,11 +123,11 @@ export default (ReactTable) => {
           },
           headerClassName: cx(
             column.headerClassName,
-            fixed && fixedClassName,
-            columnIsLeftFixed && fixedLeftClassName,
-            columnIsRightFixed && fixedRightClassName,
-            (_parentIsLastFixed || (parentIsLastFixed && isLastFixed)) && lastLeftFixedClassName,
-            (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && lastRightFixedClassName,
+            fixed && 'rthfc-th-fixed',
+            columnIsLeftFixed && 'rthfc-th-fixed-left',
+            columnIsRightFixed && 'rthfc-th-fixed-right',
+            (_parentIsLastFixed || (parentIsLastFixed && isLastFixed)) && 'rthfc-th-fixed-left-last',
+            (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && 'rthfc-th-fixed-right-last',
           ),
           headerStyle: {
             ...column.headerStyle,
@@ -166,8 +150,6 @@ export default (ReactTable) => {
       const {
         className,
         innerRef,
-        stripedColor,
-        highlightColor,
         ...props
       } = this.props;
 
@@ -175,7 +157,7 @@ export default (ReactTable) => {
         <ReactTable
           {...props}
           ref={innerRef}
-          className={cx(className, this.tableClassName, tableClassName, this.uniqClassName)}
+          className={cx(className, this.uniqClassName, 'rthfc', '-sp')}
           columns={this.getColumns()}
           onResizedChange={this.onResizedChange}
         />
