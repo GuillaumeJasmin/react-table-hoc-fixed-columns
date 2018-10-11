@@ -155,6 +155,16 @@ Check sticky support [https://caniuse.com/#search=sticky](https://caniuse.com/#s
 ## Migrate `v0` to `v1`
 For migration to `v0.1.x` to `v1.x.x` , `fixed: true` is equivalent to `fixed: left`, no need to change the value.
 
+## Migrate `v1` to `v2`
+v2 contain styles improvement. CSS-in-JS was removed, in order to let a full override style. However, you now must manually include css file
+
+* inlude css file
+  ```jsx
+    import from 'node_modules/react-table-hoc-fixed-columns/lib/styles.css'
+  ```
+* `stripedColor` and `highlightColor` props was remove. You can now override it with pure css.
+* See the [CSS file](https://github.com/GuillaumeJasmin/react-table-hoc-fixed-columns/blob/master/src/lib/styles.css) if you want to override style
+
 ## Contribute
 
 Follow these steps to get started developing :
