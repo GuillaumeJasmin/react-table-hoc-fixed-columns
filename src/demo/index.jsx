@@ -104,7 +104,7 @@ function Demo() {
               },
             ]}
             defaultPageSize={50}
-            className="-striped -highlighted"
+            className="-striped -highlight"
           />
         </div>
 
