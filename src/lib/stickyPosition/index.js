@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
 import cx from 'classnames';
-import { getColumnId, isLeftFixed, isRightFixed, sortColumns } from '../helpers';
+import { getColumnId, isLeftFixed, isRightFixed, sortColumns, checkErrors } from '../helpers';
 
 export default (ReactTable) => {
   class ReactTableFixedColumns extends React.Component {
@@ -21,16 +21,9 @@ export default (ReactTable) => {
 
     constructor(props) {
       super(props);
-      const hasGroups = !!props.columns.find(column => column.columns);
-      const fixedColumnsWithoutGroup = props.columns.filter(column => column.fixed && !column.columns).map(({ Header }) => `'${Header}'`);
-      if (hasGroups && fixedColumnsWithoutGroup.length) {
-        console.warn([
-          'WARNING react-table-hoc-fixed-column: ReactTable has fixed columns outside groups.',
-          `For a better UI render, place ${fixedColumnsWithoutGroup.join(' and ')} columns into a group (even a group with an empty Header label)`,
-        ].join('\n\n'));
-      }
 
-      // this.tableClassName = getTableClassName(this.props);
+      checkErrors(this.props.columns);
+
       this.columnsWidth = {};
       this.uniqClassName = uniqid('rthfc-');
     }

@@ -21,3 +21,25 @@ export const enableStickyPosition = () => {
   mStyle.cssText = 'position:sticky;position:-webkit-sticky;position:-ms-sticky;';
   return mStyle.position.indexOf('sticky') !== -1;
 };
+
+export const checkErrors = (columns) => {
+  const hasGroups = !!columns.find(column => column.columns);
+  const fixedColumnsWithoutGroup = columns.filter(column => column.fixed && !column.columns).map(({ Header }) => `'${Header}'`);
+
+  if (hasGroups && fixedColumnsWithoutGroup.length) {
+    throw new Error(`WARNING react-table-hoc-fixed-column:
+          \nYour ReactTable has group and fixed columns outside groups, and that will break UI.
+          \nYou must place ${fixedColumnsWithoutGroup.join(' and ')} columns into a group (even a group with an empty Header label)\n`);
+  }
+
+  const bugWithUnderColumnsFixed = columns.find(parentCol => !parentCol.fixed && parentCol.columns && parentCol.columns.find(col => col.fixed));
+
+  if (bugWithUnderColumnsFixed) {
+    const childBugs = bugWithUnderColumnsFixed.columns.find(({ fixed }) => fixed);
+    throw new Error(`WARNING react-table-hoc-fixed-column:
+          \nYour ReactTable contain columns group with at least one child columns fixed.
+          \nWhen ReactTable has columns groups, only columns groups can be fixed
+          \nYou must set fixed: 'left' | 'right' for the '${bugWithUnderColumnsFixed.Header}' column, or remove the fixed property of '${childBugs.Header}' column.`);
+  }
+};
+
