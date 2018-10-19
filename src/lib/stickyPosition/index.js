@@ -114,7 +114,7 @@ export default (ReactTable) => {
             columnIsLeftFixed && 'rthfc-td-fixed-left',
             columnIsRightFixed && 'rthfc-td-fixed-right',
             isLastFixed && 'rthfc-td-fixed-left-last',
-            isFirstFixed && 'rthfc-td-fixed-right-last',
+            isFirstFixed && 'rthfc-td-fixed-right-first',
           ),
           style: {
             ...column.style,
@@ -127,7 +127,7 @@ export default (ReactTable) => {
             columnIsLeftFixed && 'rthfc-th-fixed-left',
             columnIsRightFixed && 'rthfc-th-fixed-right',
             (_parentIsLastFixed || (parentIsLastFixed && isLastFixed)) && 'rthfc-th-fixed-left-last',
-            (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && 'rthfc-th-fixed-right-last',
+            (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && 'rthfc-th-fixed-right-first',
           ),
           headerStyle: {
             ...column.headerStyle,

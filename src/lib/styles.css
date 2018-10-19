@@ -30,8 +30,8 @@
   border-right: solid 1px #ccc;
 }
 
-.rthfc .rt-th.rthfc-th-fixed-right-last,
-.rthfc .rt-td.rthfc-td-fixed-right-last {
+.rthfc .rt-th.rthfc-th-fixed-right-first,
+.rthfc .rt-td.rthfc-td-fixed-right-first {
   border-left: solid 1px #ccc;
 }
 
