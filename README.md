@@ -41,6 +41,8 @@ It's really simple: add `fixed` property to your columns with value `left` and `
 ```js
 import ReactTable from 'react-table';
 import withFixedColumns from 'react-table-hoc-fixed-columns';
+import 'react-table-hoc-fixed-columns/lib/styles.css'
+
 const ReactTableFixedColumns = withFixedColumns(ReactTable);
 ...
 render () {
@@ -77,6 +79,8 @@ Fixed columns also work with groups.
 ```js
 import ReactTable from 'react-table';
 import withFixedColumns from 'react-table-hoc-fixed-columns';
+import 'react-table-hoc-fixed-columns/lib/styles.css'
+
 const ReactTableFixedColumns = withFixedColumns(ReactTable);
 ...
 render () {
@@ -156,7 +160,7 @@ v2 contain styles improvement. CSS-in-JS was removed, in order to let a full ove
 
 * inlude css file
   ```jsx
-    import 'node_modules/react-table-hoc-fixed-columns/lib/styles.css'
+    import 'react-table-hoc-fixed-columns/lib/styles.css'
   ```
 * `stripedColor` and `highlightColor` props was remove. You can now override it with pure css.
 * See the [CSS file](https://github.com/GuillaumeJasmin/react-table-hoc-fixed-columns/blob/v2/src/lib/styles.css) if you want to override style
