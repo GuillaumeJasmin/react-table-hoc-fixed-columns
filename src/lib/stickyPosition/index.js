@@ -87,7 +87,7 @@ export default (ReactTable) => {
 
     getRightOffsetColumns(columns, index) {
       let offset = 0;
-      for (let i = index + 1; i < columns.length - index; i += 1) {
+      for (let i = index + 1; i < columns.length; i += 1) {
         const column = columns[i];
         const id = getColumnId(column);
         const width = this.columnsWidth[id] || column.width || column.minWidth || 100;
