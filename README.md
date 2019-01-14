@@ -152,6 +152,9 @@ import { withFixedColumnsStickyPosition } from 'react-table-hoc-fixed-columns'
 
 Check sticky support [https://caniuse.com/#search=sticky](https://caniuse.com/#search=sticky)
 
+### ES7 requirement
+If your browser doesn't support ES7, please import [es7-shim](https://www.npmjs.com/package/es7-shim). Alternatively, you could just use the [polyfill](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes#Polyfill) for the Array `includes` method.
+
 ## Migrate `v0` to `v1`
 For migration to `v0.1.x` to `v1.x.x` , `fixed: true` is equivalent to `fixed: left`, no need to change the value.
 
