@@ -1,5 +1,5 @@
 
-ReactTable HOC fixed columns
+ReactTable HOC fixed columns - v2 beta
 ---
 [![npm version](https://img.shields.io/npm/v/react-table-hoc-fixed-columns.svg?style=flat-square)](https://www.npmjs.com/package/react-table-hoc-fixed-columns)
 [![npm downloads](https://img.shields.io/npm/dm/react-table-hoc-fixed-columns.svg?style=flat-square)](https://www.npmjs.com/package/react-table-hoc-fixed-columns)
@@ -8,7 +8,7 @@ Higher Order Components for [ReactTable](https://react-table.js.org). It make po
 
 # Documentation
 
-* [Demo on CodeSandbox](https://codesandbox.io/s/jnjv6j495y)
+* [Demo v2 on CodeSandbox](https://codesandbox.io/s/kowzlm5jp7)
 * [Install](#install)
 * [Simple example](#simple-example)
 * [Props](#props)
@@ -40,8 +40,9 @@ It's really simple: add `fixed` property to your columns with value `left` and `
 
 ```js
 import ReactTable from 'react-table';
+import "react-table/react-table.css";
 import withFixedColumns from 'react-table-hoc-fixed-columns';
-import 'react-table-hoc-fixed-columns/lib/styles.css'
+import 'react-table-hoc-fixed-columns/lib/styles.css' // important: this line must be placed after react-table css import
 
 const ReactTableFixedColumns = withFixedColumns(ReactTable);
 ...
@@ -78,8 +79,9 @@ Fixed columns also work with groups.
 
 ```js
 import ReactTable from 'react-table';
+import "react-table/react-table.css";
 import withFixedColumns from 'react-table-hoc-fixed-columns';
-import 'react-table-hoc-fixed-columns/lib/styles.css'
+import 'react-table-hoc-fixed-columns/lib/styles.css' // important: this line must be placed after react-table css import
 
 const ReactTableFixedColumns = withFixedColumns(ReactTable);
 ...
