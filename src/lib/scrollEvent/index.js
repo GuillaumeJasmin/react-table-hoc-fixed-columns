@@ -8,7 +8,7 @@ import {
   lastLeftFixedClassName,
   lastRightFixedClassName,
 } from '../styles';
-import { isLeftFixed, isRightFixed, sortColumns } from '../helpers';
+import { isLeftFixed, isRightFixed, sortColumns, findPrevColumnNotHidden, findNextColumnNotHidden } from '../helpers';
 
 export default (ReactTable) => {
   class ReactTableFixedColumns extends React.Component {
@@ -99,14 +99,14 @@ export default (ReactTable) => {
     getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) => columns.map((column, index) => {
       const fixed = column.fixed || parentIsfixed || false;
 
-      const nextColumn = columns[index + 1];
+      const nextColumn = findNextColumnNotHidden(columns, index);
       const _parentIsLastFixed = fixed && parentIsfixed === undefined && nextColumn && !nextColumn.fixed;
       const isLastFixed = fixed && (parentIsfixed ? [true, 'left'].includes(parentIsfixed) && parentIsLastFixed : true) && (
         (parentIsfixed && !nextColumn) ||
         (!parentIsfixed && nextColumn && !nextColumn.fixed)
       );
 
-      const prevColumn = columns[index - 1];
+      const prevColumn = findPrevColumnNotHidden(columns, index);
       const _parentIsFirstFixed = fixed && parentIsfixed === undefined && prevColumn && !prevColumn.fixed;
       const isFirstFixed = fixed && (parentIsfixed ? parentIsfixed === 'right' && parentIsFirstFixed : true) && (
         (parentIsfixed && !prevColumn) ||
