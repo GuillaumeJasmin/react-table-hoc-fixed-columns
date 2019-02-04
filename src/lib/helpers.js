@@ -43,3 +43,20 @@ export const checkErrors = (columns) => {
   }
 };
 
+export const findNextColumnNotHidden = (columns, currentIndex) => {
+  for (let i = currentIndex + 1; i < columns.length; i += 1) {
+    const column = columns[i];
+    if (column.show !== false) return column;
+  }
+
+  return undefined;
+};
+
+export const findPrevColumnNotHidden = (columns, currentIndex) => {
+  for (let i = currentIndex - 1; i >= 0; i -= 1) {
+    const column = columns[i];
+    if (column.show !== false) return column;
+  }
+
+  return undefined;
+};
