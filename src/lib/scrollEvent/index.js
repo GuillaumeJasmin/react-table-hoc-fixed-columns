@@ -113,7 +113,7 @@ export default (ReactTable) => {
         (!parentIsfixed && prevColumn && !prevColumn.fixed)
       );
 
-      return {
+      const output = {
         ...column,
         fixed,
         className: cx(
@@ -132,8 +132,13 @@ export default (ReactTable) => {
           (_parentIsLastFixed || (parentIsLastFixed && isLastFixed)) && lastLeftFixedClassName,
           (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && lastRightFixedClassName,
         ),
-        columns: column.columns && this.getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed),
       };
+
+      if (column.columns) {
+        output.columns = this.getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed);
+      }
+
+      return output;
     });
 
     getColumns() {
