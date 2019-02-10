@@ -21,7 +21,7 @@ export default (ReactTable) => {
 
     constructor(props) {
       super(props);
-      
+
       checkErrors(this.props.columns);
 
       this.uniqClassName = uniqid('rthfc-');
@@ -95,7 +95,7 @@ export default (ReactTable) => {
         (!parentIsfixed && prevColumn && !prevColumn.fixed)
       );
 
-      return {
+      const output = {
         ...column,
         fixed,
         className: cx(
@@ -114,8 +114,13 @@ export default (ReactTable) => {
           (_parentIsLastFixed || (parentIsLastFixed && isLastFixed)) && 'rthfc-th-fixed-left-last',
           (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && 'rthfc-th-fixed-right-first',
         ),
-        columns: column.columns && this.getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed),
       };
+
+      if (column.columns) {
+        output.columns = this.getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed);
+      }
+
+      return output;
     });
 
     getColumns() {

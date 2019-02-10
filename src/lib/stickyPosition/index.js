@@ -102,7 +102,7 @@ export default (ReactTable) => {
         const left = columnIsLeftFixed && this.getLeftOffsetColumns(columns, index);
         const right = columnIsRightFixed && this.getRightOffsetColumns(columns, index);
 
-        return {
+        const output = {
           ...column,
           fixed,
           className: cx(
@@ -131,8 +131,13 @@ export default (ReactTable) => {
             left,
             right,
           },
-          columns: column.columns && this.getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed),
         };
+
+        if (column.columns) {
+          output.columns = this.getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed);
+        }
+
+        return output;
       });
     }
 
