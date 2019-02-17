@@ -9,7 +9,7 @@ export default (ReactTable) => {
     static propTypes = {
       columns: PropTypes.array.isRequired,
       getProps: PropTypes.func,
-      innerRef: PropTypes.func,
+      innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
       className: PropTypes.string,
     }
 

@@ -8,7 +8,7 @@ export default (ReactTable) => {
   class ReactTableFixedColumns extends React.Component {
     static propTypes = {
       columns: PropTypes.array.isRequired,
-      innerRef: PropTypes.func,
+      innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
       className: PropTypes.string,
       onResizedChange: PropTypes.func,
     }
