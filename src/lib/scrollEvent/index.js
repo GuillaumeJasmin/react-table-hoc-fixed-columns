@@ -65,7 +65,7 @@ export default (ReactTable) => {
     }
 
     onScrollX = (event) => {
-      if (event.nativeEvent.target.getAttribute('class') !== 'rt-table') return;
+      if (event.nativeEvent.target.getAttribute('class').indexOf('rt-table') === -1) return;
       this.calculatePos(event.nativeEvent.target);
     }
 
