@@ -4,12 +4,14 @@
   "description": "ReactTable HOC for fixed columns",
   "main": "lib/index.js",
   "scripts": {
-    "lib": "eslint src/lib/index.js && babel src/lib -d lib",
+    "lib": "rm -rf lib && eslint src/lib/index.js && babel src/lib -d lib",
     "lib:watch": "babel src/lib -w -d lib",
     "demo": "webpack-dev-server",
     "demo:prod": "rm -rf docs && webpack -p"
   },
-  "publishConfig": {},
+  "publishConfig": {
+    "tag": "stable-rc"
+  },
   "keywords": [],
   "license": "MIT",
   "files": [
