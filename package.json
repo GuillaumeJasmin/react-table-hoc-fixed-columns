@@ -4,7 +4,7 @@
   "description": "ReactTable HOC for fixed columns",
   "main": "lib/index.js",
   "scripts": {
-    "lib": "eslint src/lib/index.js && babel src/lib -d lib --copy-files",
+    "lib": "rm -rf lib && eslint src/lib/index.js && babel src/lib -d lib --copy-files",
     "lib:watch": "babel src/lib -w -d lib --copy-files",
     "demo": "webpack-dev-server"
   },
