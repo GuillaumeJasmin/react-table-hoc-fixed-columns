@@ -172,7 +172,7 @@ v2 contain styles improvement. CSS-in-JS was removed, in order to let a full ove
     import 'react-table-hoc-fixed-columns/lib/styles.css';
   ```
 * `stripedColor` and `highlightColor` props was remove. You can now override it with pure css.
-* See the [CSS file](https://github.com/GuillaumeJasmin/react-table-hoc-fixed-columns/blob/v2/src/lib/styles.css) if you want to override style
+* See the [CSS file](https://github.com/GuillaumeJasmin/react-table-hoc-fixed-columns/blob/master/src/lib/styles.css) if you want to override style
 
 ## Contribute
 
