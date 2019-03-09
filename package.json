@@ -1,6 +1,6 @@
 {
   "name": "react-table-hoc-fixed-columns",
-  "version": "2.0.1-alpha.1",
+  "version": "2.0.1",
   "description": "ReactTable HOC for fixed columns",
   "main": "lib/index.js",
   "scripts": {
