@@ -18,6 +18,7 @@ export default (ReactTable) => {
       getProps: null,
       innerRef: null,
       className: null,
+      uniqClassName: null,
     }
 
     constructor(props) {

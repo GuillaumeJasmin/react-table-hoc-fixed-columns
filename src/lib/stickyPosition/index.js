@@ -18,6 +18,7 @@ export default (ReactTable) => {
       innerRef: null,
       className: null,
       onResizedChange: null,
+      uniqClassName: null,
     }
 
     constructor(props) {
