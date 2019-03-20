@@ -11,6 +11,7 @@ export default (ReactTable) => {
       innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
       className: PropTypes.string,
       onResizedChange: PropTypes.func,
+      uniqClassName: PropTypes.string,
     }
 
     static defaultProps = {
@@ -25,7 +26,7 @@ export default (ReactTable) => {
       checkErrors(this.props.columns);
 
       this.columnsWidth = {};
-      this.uniqClassName = uniqid('rthfc-');
+      this.uniqClassName = this.props.uniqClassName || uniqid('rthfc-');
     }
 
     componentDidMount() {
