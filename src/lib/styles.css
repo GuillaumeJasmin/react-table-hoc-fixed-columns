@@ -43,6 +43,7 @@
 }
 
 .rthfc.-sp .rt-thead {
+  position: -webkit-sticky;
   position: sticky;
 }
 
@@ -51,6 +52,7 @@
 }
 
 .rthfc.-sp .rt-tfoot {
+  position: -webkit-sticky;
   position: sticky;
   z-index: 1;
   bottom: 0px;
@@ -58,6 +60,7 @@
 
 .rthfc.-sp .rthfc-th-fixed,
 .rthfc.-sp .rthfc-td-fixed {
+  position: -webkit-sticky;
   position: sticky;
   z-index: 1;
 }
