@@ -11,12 +11,14 @@ export default (ReactTable) => {
       getProps: PropTypes.func,
       innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
       className: PropTypes.string,
+      uniqClassName: PropTypes.string,
     }
 
     static defaultProps = {
       getProps: null,
       innerRef: null,
       className: null,
+      uniqClassName: null,
     }
 
     constructor(props) {
@@ -24,7 +26,7 @@ export default (ReactTable) => {
 
       checkErrors(this.props.columns);
 
-      this.uniqClassName = uniqid('rthfc-');
+      this.uniqClassName = this.props.uniqClassName || uniqid('rthfc-');
 
       this.onChangePropertyList = {
         onResizedChange: this.onChangeProperty('onResizedChange'),
