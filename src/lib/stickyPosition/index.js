@@ -31,10 +31,20 @@ export default (ReactTable) => {
     }
 
     componentDidMount() {
+      this.updateRowsPosition();
+    }
+
+    componentDidUpdate() {
+      this.updateRowsPosition();
+    }
+
+    updateRowsPosition() {
       const headerRows = document.querySelectorAll(`.${this.uniqClassName} .rt-thead`);
+      let topPosition = 0;
       /* eslint-disable no-param-reassign */
       Array.from(headerRows).forEach((row) => {
-        row.style.top = `${row.offsetTop}px`;
+        row.style.top = `${topPosition}px`;
+        topPosition += row.offsetHeight;
       });
       /* eslint-enable no-param-reassign */
     }
