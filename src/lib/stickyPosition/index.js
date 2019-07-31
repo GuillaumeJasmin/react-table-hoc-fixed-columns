@@ -113,6 +113,15 @@ export default (ReactTable) => {
 
         const left = columnIsLeftFixed && this.getLeftOffsetColumns(columns, index);
         const right = columnIsRightFixed && this.getRightOffsetColumns(columns, index);
+        const style = {
+          ...column.style,
+        };
+        if (left) {
+          style.left = left;
+        }
+        if (right) {
+          style.right = right;
+        }
 
         const output = {
           ...column,
@@ -125,11 +134,7 @@ export default (ReactTable) => {
             isLastFixed && 'rthfc-td-fixed-left-last',
             isFirstFixed && 'rthfc-td-fixed-right-first',
           ),
-          style: {
-            ...column.style,
-            left,
-            right,
-          },
+          style,
           headerClassName: cx(
             column.headerClassName,
             fixed && 'rthfc-th-fixed',
