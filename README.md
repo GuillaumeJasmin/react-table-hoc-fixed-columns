@@ -1,10 +1,10 @@
 
-ReactTable HOC fixed columns - v2
+ReactTable HOC fixed columns
 ---
 [![npm version](https://img.shields.io/npm/v/react-table-hoc-fixed-columns.svg?style=flat-square)](https://www.npmjs.com/package/react-table-hoc-fixed-columns)
 [![npm downloads](https://img.shields.io/npm/dm/react-table-hoc-fixed-columns.svg?style=flat-square)](https://www.npmjs.com/package/react-table-hoc-fixed-columns)
 
-Higher Order Components for [ReactTable](https://react-table.js.org). It make possible to fixed one or more columns on the left and/or on the right. It use `position: sticky` for recent browsers, and [fallback for legacy browser](#legacy-browsers).
+Higher Order Components for [ReactTable v6](https://github.com/tannerlinsley/react-table/tree/v6). It make possible to fixed one or more columns on the left and/or on the right. It use `position: sticky` for recent browsers, and [fallback for legacy browser](#legacy-browsers).
 
 # Documentation
 
