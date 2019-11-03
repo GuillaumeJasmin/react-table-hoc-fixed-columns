@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ReactTableDefaults } from 'react-table';
 import uniqid from 'uniqid';
 import cx from 'classnames';
 import { getColumnId, isLeftFixed, isRightFixed, sortColumns, checkErrors, findPrevColumnNotHidden, findNextColumnNotHidden } from '../helpers';
@@ -12,6 +13,7 @@ export default (ReactTable) => {
       className: PropTypes.string,
       onResizedChange: PropTypes.func,
       uniqClassName: PropTypes.string,
+      column: PropTypes.object,
     }
 
     static defaultProps = {
@@ -19,6 +21,7 @@ export default (ReactTable) => {
       className: null,
       onResizedChange: null,
       uniqClassName: null,
+      column: ReactTableDefaults.column,
     }
 
     constructor(props) {
@@ -91,6 +94,8 @@ export default (ReactTable) => {
     }
 
     getColumnsWithFixed(columns, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) {
+      const defaultColumn = this.props.column;
+
       return columns.map((column, index) => {
         const fixed = column.fixed || parentIsfixed || false;
 
@@ -118,6 +123,7 @@ export default (ReactTable) => {
           ...column,
           fixed,
           className: cx(
+            defaultColumn.className,
             column.className,
             fixed && 'rthfc-td-fixed',
             columnIsLeftFixed && 'rthfc-td-fixed-left',
@@ -126,11 +132,13 @@ export default (ReactTable) => {
             isFirstFixed && 'rthfc-td-fixed-right-first',
           ),
           style: {
+            ...defaultColumn.style,
             ...column.style,
             left,
             right,
           },
           headerClassName: cx(
+            defaultColumn.headerClassName,
             column.headerClassName,
             fixed && 'rthfc-th-fixed',
             columnIsLeftFixed && 'rthfc-th-fixed-left',
@@ -139,6 +147,7 @@ export default (ReactTable) => {
             (_parentIsFirstFixed || (parentIsFirstFixed && isFirstFixed)) && 'rthfc-th-fixed-right-first',
           ),
           headerStyle: {
+            ...defaultColumn.headerStyle,
             ...column.headerStyle,
             left,
             right,

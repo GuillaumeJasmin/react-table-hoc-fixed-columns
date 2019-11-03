@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ReactTableDefaults } from 'react-table';
 import uniqid from 'uniqid';
 import cx from 'classnames';
 import { isLeftFixed, isRightFixed, sortColumns, checkErrors, findPrevColumnNotHidden, findNextColumnNotHidden } from '../helpers';
@@ -12,6 +13,7 @@ export default (ReactTable) => {
       innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
       className: PropTypes.string,
       uniqClassName: PropTypes.string,
+      column: PropTypes.object,
     }
 
     static defaultProps = {
@@ -19,6 +21,7 @@ export default (ReactTable) => {
       innerRef: null,
       className: null,
       uniqClassName: null,
+      column: ReactTableDefaults.column,
     }
 
     constructor(props) {
@@ -81,6 +84,8 @@ export default (ReactTable) => {
     }
 
     getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) => columns.map((column, index) => {
+      const defaultColumn = this.props.column;
+
       const fixed = column.fixed || parentIsfixed || false;
 
       const nextColumn = findNextColumnNotHidden(columns, index);
@@ -101,6 +106,7 @@ export default (ReactTable) => {
         ...column,
         fixed,
         className: cx(
+          defaultColumn.className,
           column.className,
           fixed && 'rthfc-td-fixed',
           isLeftFixed({ fixed }) && 'rthfc-td-fixed-left',
@@ -109,6 +115,7 @@ export default (ReactTable) => {
           isFirstFixed && 'rthfc-td-fixed-right-first',
         ),
         headerClassName: cx(
+          defaultColumn.headerClassName,
           column.headerClassName,
           fixed && 'rthfc-th-fixed',
           isLeftFixed({ fixed }) && 'rthfc-th-fixed-left',
