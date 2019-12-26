@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ReactTableDefaults } from 'react-table';
 import uniqid from 'uniqid';
 import cx from 'classnames';
-import { getColumnId, isLeftFixed, isRightFixed, sortColumns, checkErrors, findPrevColumnNotHidden, findNextColumnNotHidden } from '../helpers';
+import { getColumnId, isLeftFixed, isRightFixed, sortColumns, checkErrors, findPrevColumnNotHidden, findNextColumnNotHidden, memoize } from '../helpers';
 
 export default (ReactTable) => {
   class ReactTableFixedColumns extends React.Component {
@@ -162,17 +162,17 @@ export default (ReactTable) => {
       });
     }
 
-    getColumns() {
-      const { columns } = this.props;
+    getColumns = memoize((columns) => {
       const sortedColumns = sortColumns(columns);
       const columnsWithFixed = this.getColumnsWithFixed(sortedColumns);
       return columnsWithFixed;
-    }
+    })
 
     render() {
       const {
         className,
         innerRef,
+        columns,
         ...props
       } = this.props;
 
@@ -181,7 +181,7 @@ export default (ReactTable) => {
           {...props}
           ref={innerRef}
           className={cx(className, this.uniqClassName, 'rthfc', '-sp')}
-          columns={this.getColumns()}
+          columns={this.getColumns(columns)}
           onResizedChange={this.onResizedChange}
         />
       );

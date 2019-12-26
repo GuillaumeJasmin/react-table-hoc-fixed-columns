@@ -60,3 +60,34 @@ export const findPrevColumnNotHidden = (columns, currentIndex) => {
 
   return undefined;
 };
+
+const areArgumentsEqual = (prevArgs, currentArgs) => {
+  if (!prevArgs || !currentArgs) return false;
+  if (prevArgs.length !== currentArgs.length) return false;
+
+  const prevArgSize = prevArgs.length;
+
+  for (let index = 0; index < prevArgSize; index += 1) {
+    if (prevArgs[index] !== currentArgs[index]) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+export const memoize = (funcToMemoize) => {
+  let prevArgs;
+  let memoizedResult;
+
+  const getMemoizedFunction = (...currentArgs) => {
+    if (!areArgumentsEqual(prevArgs, currentArgs)) {
+      memoizedResult = funcToMemoize(...currentArgs);
+    }
+
+    prevArgs = currentArgs;
+    return memoizedResult;
+  };
+
+  return getMemoizedFunction;
+};
