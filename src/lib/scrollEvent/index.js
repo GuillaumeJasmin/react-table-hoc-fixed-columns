@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ReactTableDefaults } from 'react-table';
 import uniqid from 'uniqid';
 import cx from 'classnames';
 import { isLeftFixed, isRightFixed, sortColumns, checkErrors, findPrevColumnNotHidden, findNextColumnNotHidden, memoize } from '../helpers';
@@ -21,7 +20,7 @@ export default (ReactTable) => {
       innerRef: null,
       className: null,
       uniqClassName: null,
-      column: ReactTableDefaults.column,
+      column: ReactTable.defaultProps.column,
     }
 
     constructor(props) {
