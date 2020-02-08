@@ -8,7 +8,10 @@
     "lib:watch": "babel src/lib -w -d lib --copy-files",
     "demo": "webpack-dev-server",
     "test": "yarn test:eslint",
-    "test:eslint": "npx eslint --ext .js --ext .jsx src/lib"
+    "test:eslint": "npx eslint --ext .js --ext .jsx src/lib",
+    "release-patch": "npm version patch",
+    "release-minor": "npm version minor",
+    "release-major": "npm version major"
   },
   "publishConfig": {
     "tag": "next"
