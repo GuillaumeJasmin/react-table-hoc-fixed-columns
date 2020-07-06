@@ -161,11 +161,14 @@ export default (ReactTable) => {
       });
     }
 
-    getColumns = memoize((columns) => {
-      const sortedColumns = sortColumns(columns);
+    getSorted = memoize(columns => sortColumns(columns))
+
+    getColumns = (columns) => {
+      const sortedColumns = this.getSorted(columns);
+
       const columnsWithFixed = this.getColumnsWithFixed(sortedColumns);
       return columnsWithFixed;
-    })
+    }
 
     render() {
       const {
