@@ -65,6 +65,11 @@
   z-index: 1;
 }
 
+.rthfc.-sp .rthfc-th-fixed {
+  /* set z-index = 11 because rt-resizer has z-index = 10 */
+  z-index: 11;
+}
+
 .rthfc.-sp .rthfc-th-fixed-left,
 .rthfc.-sp .rthfc-td-fixed-left {
   left: 0;
@@ -83,4 +88,9 @@
 .rthfc.-se .rt-td.rthfc-td-fixed {
   position: relative;
   z-Index: 1;
+}
+
+.rthfc.-se .-header .rt-th.rthfc-th-fixed {
+  /* set z-index = 11 because rt-resizer has z-index = 10 */
+  z-Index: 11;
 }

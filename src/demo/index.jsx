@@ -121,6 +121,7 @@ function Demo() {
                     Header: 'First Name',
                     accessor: 'firstName',
                     width: 150,
+                    Footer: () => <div>Footer</div>,
                   },
                   {
                     Header: 'Last Name',
@@ -137,6 +138,7 @@ function Demo() {
                     id: 'Full Name',
                     width: 150,
                     Cell: row => <div>{row.original.firstName}<br />{row.original.lastName}</div>,
+                    Footer: () => <div>Footer</div>,
                   },
                   {
                     Header: 'Age',
