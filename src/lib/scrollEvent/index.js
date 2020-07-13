@@ -82,8 +82,8 @@ export default (ReactTable) => {
       /* eslint-enable no-param-reassign */
     }
 
-    getColumnsWithFixed = (columns, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) => columns.map((column, index) => {
-      const defaultColumn = this.props.column;
+    getColumnsWithFixedFeature = (columns, columnProps, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) => columns.map((column, index) => {
+      const defaultColumn = columnProps;
 
       const fixed = column.fixed || parentIsfixed || false;
 
@@ -125,16 +125,15 @@ export default (ReactTable) => {
       };
 
       if (column.columns) {
-        output.columns = this.getColumnsWithFixed(column.columns, fixed, _parentIsLastFixed, _parentIsFirstFixed);
+        output.columns = this.getColumnsWithFixedFeature(column.columns, columnProps, fixed, _parentIsLastFixed, _parentIsFirstFixed);
       }
 
       return output;
     });
 
-    getColumns = memoize((columns) => {
+    getColumns = memoize((columns, columnProps) => {
       const sortedColumns = sortColumns(columns);
-      const columnsWithFixed = this.getColumnsWithFixed(sortedColumns);
-      return columnsWithFixed;
+      return this.getColumnsWithFixedFeature(sortedColumns, columnProps);
     })
 
     getProps = (...args) => {
@@ -158,7 +157,7 @@ export default (ReactTable) => {
           {...props}
           ref={innerRef}
           className={cx(className, 'rthfc', '-se', this.uniqClassName)}
-          columns={this.getColumns(columns)}
+          columns={this.getColumns(columns, this.props.column)}
           getProps={this.getProps}
           {...this.onChangePropertyList}
         />
