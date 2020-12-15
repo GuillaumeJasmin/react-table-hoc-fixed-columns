@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { render } from 'react-dom';
 import ReactTable from 'react-table';
+import SelectTable from 'react-table/lib/hoc/selectTable';
 import 'react-table/react-table.css';
 import withFixedColumns from '../../lib';
 import '../../lib/styles.css';
@@ -16,6 +17,7 @@ import {
 } from '../../src/FakeData.js';
 
 const ReactTableFixedColumns = withFixedColumns(ReactTable);
+const ReactTableSelectFixedColumns = withFixedColumns(SelectTable(ReactTable));
 
 const getData = () => {
   const data = [];
@@ -42,6 +44,13 @@ const getData = () => {
 };
 
 function Demo() {
+  const [isSelectTable, setIsSelectTable] = useState(false)
+  const TableComponent = isSelectTable ? ReactTableSelectFixedColumns : ReactTableFixedColumns;
+
+  const onToggleCheckbox = (e) => {
+    setIsSelectTable(e.target.checked);
+  }
+
   return (
     <div className="container">
       <div className="info">
@@ -51,11 +60,13 @@ function Demo() {
         <div>
           <a href="https://github.com/guillaumejasmin/react-table-hoc-fixed-columns">Github source</a>
         </div>
+        <input type="checkbox" onChange={onToggleCheckbox} />
+        With select table HOC
       </div>
       <div>
 
         <div className="table">
-          <ReactTableFixedColumns
+          <TableComponent
             data={getData()}
             getTdProps={() => ({ style: { textAlign: 'center' } })}
             filterable
@@ -105,11 +116,12 @@ function Demo() {
             ]}
             defaultPageSize={50}
             className="-striped -highlight"
+            isSelectTable={isSelectTable}
           />
         </div>
 
         <div className="table">
-          <ReactTableFixedColumns
+          <TableComponent
             data={getData()}
             getTdProps={() => ({ style: { textAlign: 'center' } })}
             filterable
@@ -183,6 +195,7 @@ function Demo() {
             ]}
             defaultPageSize={50}
             className="-striped"
+            isSelectTable={isSelectTable}
           />
         </div>
       </div>

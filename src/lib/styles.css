@@ -80,6 +80,18 @@
   left: 0;
 }
 
+.select-table .rt-tr .rt-th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 11;
+}
+
+.select-table .rt-tr .rt-td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
 /*------------ scroll event version: -se ------------*/
 
 .rthfc.-se .-header .rt-th.rthfc-th-fixed,

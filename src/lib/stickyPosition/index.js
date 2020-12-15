@@ -13,6 +13,8 @@ export default (ReactTable) => {
       onResizedChange: PropTypes.func,
       uniqClassName: PropTypes.string,
       column: PropTypes.object,
+      selectWidth: PropTypes.number,
+      isSelectTable: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -21,9 +23,10 @@ export default (ReactTable) => {
       onResizedChange: null,
       uniqClassName: null,
       column: ReactTable.defaultProps.column,
+      isSelectTable: false,
     }
 
-    static getLeftOffsetColumns(columns, index, columnsWidth) {
+    static getLeftOffsetColumns(columns, index, columnsWidth, isSelectTable, selectWidth) {
       let offset = 0;
       for (let i = 0; i < index; i += 1) {
         const column = columns[i];
@@ -32,6 +35,9 @@ export default (ReactTable) => {
           const width = columnsWidth[id] || column.width || column.minWidth || 100;
           offset += width;
         }
+      }
+      if (isSelectTable) {
+        offset += selectWidth || 30;
       }
 
       return offset;
@@ -98,8 +104,8 @@ export default (ReactTable) => {
       });
     }
 
-    getColumnsWithFixedFeature(columns, columnProps, columnsWidth, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) {
-      const defaultColumn = columnProps;
+    getColumnsWithFixedFeature(columns, columnProps, columnsWidth, isSelectTable, selectWidth, parentIsfixed, parentIsLastFixed, parentIsFirstFixed) {
+      const defaultColumn = columnProps || {};
 
       return columns.map((column, index) => {
         const fixed = column.fixed || parentIsfixed || false;
@@ -121,7 +127,7 @@ export default (ReactTable) => {
         const columnIsLeftFixed = isLeftFixed({ fixed });
         const columnIsRightFixed = isRightFixed({ fixed });
 
-        const left = columnIsLeftFixed && ReactTableFixedColumns.getLeftOffsetColumns(columns, index, columnsWidth);
+        const left = columnIsLeftFixed && ReactTableFixedColumns.getLeftOffsetColumns(columns, index, columnsWidth, isSelectTable, selectWidth);
         const right = columnIsRightFixed && ReactTableFixedColumns.getRightOffsetColumns(columns, index, columnsWidth);
 
         const output = {
@@ -160,16 +166,16 @@ export default (ReactTable) => {
         };
 
         if (column.columns) {
-          output.columns = this.getColumnsWithFixedFeature(column.columns, columnProps, columnsWidth, fixed, _parentIsLastFixed, _parentIsFirstFixed);
+          output.columns = this.getColumnsWithFixedFeature(column.columns, columnProps, columnsWidth, isSelectTable, selectWidth, fixed, _parentIsLastFixed, _parentIsFirstFixed);
         }
 
         return output;
       });
     }
 
-    getColumns = memoize((columns, columnProps, columnsWidth) => {
+    getColumns = memoize((columns, columnProps, columnsWidth, isSelectTable, selectWidth) => {
       const sortedColumns = sortColumns(columns);
-      return this.getColumnsWithFixedFeature(sortedColumns, columnProps, columnsWidth);
+      return this.getColumnsWithFixedFeature(sortedColumns, columnProps, columnsWidth, isSelectTable, selectWidth);
     })
 
     render() {
@@ -177,6 +183,8 @@ export default (ReactTable) => {
         className,
         innerRef,
         columns,
+        selectWidth,
+        isSelectTable,
         ...props
       } = this.props;
 
@@ -184,8 +192,8 @@ export default (ReactTable) => {
         <ReactTable
           {...props}
           ref={innerRef}
-          className={cx(className, this.uniqClassName, 'rthfc', '-sp')}
-          columns={this.getColumns(columns, this.props.column, this.state.columnsWidth)}
+          className={cx(className, this.uniqClassName, 'rthfc', '-sp', { 'select-table': isSelectTable })}
+          columns={this.getColumns(columns, this.props.column, this.state.columnsWidth, isSelectTable, selectWidth)}
           onResizedChange={this.onResizedChange}
         />
       );
