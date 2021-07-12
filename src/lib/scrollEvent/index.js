@@ -8,7 +8,7 @@ export default (ReactTable) => {
   class ReactTableFixedColumns extends React.Component {
     static propTypes = {
       columns: PropTypes.array.isRequired,
-      getProps: PropTypes.func,
+      getTableProps: PropTypes.func,
       innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
       className: PropTypes.string,
       uniqClassName: PropTypes.string,
@@ -16,7 +16,7 @@ export default (ReactTable) => {
     }
 
     static defaultProps = {
-      getProps: null,
+      getTableProps: null,
       innerRef: null,
       className: null,
       uniqClassName: null,
@@ -51,7 +51,7 @@ export default (ReactTable) => {
     }
 
     onScrollX = (event) => {
-      if (event.nativeEvent.target.getAttribute('class').indexOf('rt-table') === -1) return;
+      if (event.currentTarget !== event.target) return;
       this.calculatePos(event.nativeEvent.target);
     }
 
@@ -136,10 +136,10 @@ export default (ReactTable) => {
       return this.getColumnsWithFixedFeature(sortedColumns, columnProps);
     })
 
-    getProps = (...args) => {
-      const { getProps } = this.props;
+    getTableProps = (...args) => {
+      const { getTableProps } = this.props;
       return {
-        ...(getProps && getProps(...args)),
+        ...(getTableProps && getTableProps(...args)),
         onScroll: this.onScrollX,
       };
     }
@@ -158,7 +158,7 @@ export default (ReactTable) => {
           ref={innerRef}
           className={cx(className, 'rthfc', '-se', this.uniqClassName)}
           columns={this.getColumns(columns, this.props.column)}
-          getProps={this.getProps}
+          getTableProps={this.getTableProps}
           {...this.onChangePropertyList}
         />
       );
