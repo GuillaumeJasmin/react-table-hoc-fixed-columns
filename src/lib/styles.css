@@ -87,10 +87,10 @@
 .rthfc.-se .-filters .rt-th.rthfc-th-fixed,
 .rthfc.-se .rt-td.rthfc-td-fixed {
   position: relative;
-  z-Index: 1;
+  z-index: 1;
 }
 
 .rthfc.-se .-header .rt-th.rthfc-th-fixed {
   /* set z-index = 11 because rt-resizer has z-index = 10 */
-  z-Index: 11;
+  z-index: 11;
 }
